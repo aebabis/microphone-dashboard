@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Slider from './Slider';
+
 const THRESHOLD_MIN = .1;
 const THRESHOLD_MAX = 1;
 
@@ -81,20 +83,17 @@ class App extends Component {
       amplitude,
       threshold,
     } = this.state;
-    const amplitudeBarWidth = Math.max(0, amplitude - THRESHOLD_MIN) * 100 / (THRESHOLD_MAX - THRESHOLD_MIN);
     return (
       <div className="App">
-        <div className="threshold">
-          <input
-            type="range"
-            min={THRESHOLD_MIN}
-            max={THRESHOLD_MAX}
-            step=".01"
-            value={threshold}
-            onChange={({ target }) => this.setThreshold(target.value)}
-          />
-          <div className="bar" style={{width: amplitudeBarWidth.toFixed() + '%', backgroundColor: 'green'}} />
-        </div>
+        <Slider
+          min={THRESHOLD_MIN}
+          max={THRESHOLD_MAX}
+          step=".01"
+          value={threshold}
+          onChange={value => this.setThreshold(value)}
+          backgroundWidth={amplitude}
+          backgroundColor={'green'}
+        />
       </div>
     );
   }
