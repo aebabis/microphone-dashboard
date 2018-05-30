@@ -14,30 +14,39 @@ const VOLUME_MAX = 3;
 class App extends Component {
   constructor(props) {
     super(props);
+
+    const loadNumber = (prop, def) => {
+      const value = localStorage[prop];
+      return typeof value === 'string' ? +value : def;
+    }
+
     this.state = {
       amplitude: 0,
-      debounce: 500,
+      debounce: loadNumber('debounce', 500),
       lastThresholdTime: 0,
-      threshold: .5,
-      volume: 1,
+      threshold: loadNumber('threshold', .5),
+      volume: loadNumber('volume', 1),
     }
   }
 
-  setThreshold(threshold) {
-    this.setState(state => ({
-      ...state,
-      threshold,
-    }));
-  }
-
   setDebounce(debounce) {
+    localStorage.debounce = debounce;
     this.setState(state => ({
       ...state,
       debounce,
     }));
   }
 
+  setThreshold(threshold) {
+    localStorage.threshold = threshold;
+    this.setState(state => ({
+      ...state,
+      threshold,
+    }));
+  }
+
   setVolume(volume) {
+    localStorage.volume = volume;
     this.setState(state => ({
       ...state,
       volume,
