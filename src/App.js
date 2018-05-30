@@ -8,6 +8,9 @@ const THRESHOLD_MAX = 1;
 const DEBOUNCE_MIN = 100;
 const DEBOUNCE_MAX = 3000;
 
+const VOLUME_MIN = 0;
+const VOLUME_MAX = 3;
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +19,7 @@ class App extends Component {
       debounce: 500,
       lastThresholdTime: 0,
       threshold: .5,
+      volume: 1,
     }
   }
 
@@ -30,6 +34,13 @@ class App extends Component {
     this.setState(state => ({
       ...state,
       debounce,
+    }));
+  }
+
+  setVolume(volume) {
+    this.setState(state => ({
+      ...state,
+      volume,
     }));
   }
 
@@ -48,11 +59,12 @@ class App extends Component {
         setTimeout(() => {
           const sound = context.createScriptProcessor(BUFFER_LENGTH, 1, 1);
           sound.onaudioprocess = ({ outputBuffer }) => {
+            const { volume } = this.state;
             if (queue.length > 0) {
               const output = outputBuffer.getChannelData(0);
               const data = queue.shift();
               for (let i = 0; i < BUFFER_LENGTH; i++) {
-                output[i] = data[i];
+                output[i] = data[i] * volume;
               }
             } else {
               sound.disconnect();
@@ -99,6 +111,7 @@ class App extends Component {
       debounce,
       lastThresholdTime,
       threshold,
+      volume,
     } = this.state;
     return (
       <div className="App">
@@ -122,6 +135,16 @@ class App extends Component {
             onChange={value => this.setDebounce(value)}
             backgroundWidth={Math.min(debounce, new Date() - lastThresholdTime)}
             backgroundColor={'skyblue'}
+          />
+          <Slider
+            label="Volume"
+            min={VOLUME_MIN}
+            max={VOLUME_MAX}
+            step=".1"
+            value={volume}
+            onChange={value => this.setVolume(value)}
+            backgroundWidth={amplitude * volume}
+            backgroundColor={'green'}
           />
         </div>
       </div>
