@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
 
+const THRESHOLD_MIN = .1;
+const THRESHOLD_MAX = 1;
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      maxValue: 0,
+      amplitude: 0,
+      threshold: .5,
     }
+  }
+
+  setThreshold(threshold) {
+    this.setState(state => ({
+      ...state,
+      threshold,
+    }));
   }
 
   componentDidMount() {
     const DEBOUNCE = 1000; // ms
-    const THRESHOLD = .5;
     const BUFFER_LENGTH = 1024;
 
     navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
@@ -46,8 +56,14 @@ class App extends Component {
       processor.onaudioprocess = ({ inputBuffer }) => {
         const data = inputBuffer.getChannelData(0);
         const now = +new Date();
-        const maxValue = Math.max(...data);
-        if (maxValue > THRESHOLD) {
+        const amplitude = Math.max(...data);
+
+        this.setState(state => ({
+          ...state,
+          amplitude,
+        }));
+
+        if (amplitude > this.state.threshold) {
           lastThresholdTime = now;
         }
         if (now - lastThresholdTime < DEBOUNCE) {
@@ -56,21 +72,29 @@ class App extends Component {
           playSoundQueue(queue);
           queue = [];
         }
-        if (this.state.maxValue < maxValue) {
-          this.setState(state => ({
-            ...state,
-            maxValue,
-          }));
-        }
       };
     });
   }
 
   render() {
-    const { maxValue } = this.state;
+    const {
+      amplitude,
+      threshold,
+    } = this.state;
+    const amplitudeBarWidth = Math.max(0, amplitude - THRESHOLD_MIN) * 100 / (THRESHOLD_MAX - THRESHOLD_MIN);
     return (
       <div className="App">
-        {maxValue}
+        <div className="threshold">
+          <input
+            type="range"
+            min={THRESHOLD_MIN}
+            max={THRESHOLD_MAX}
+            step=".01"
+            value={threshold}
+            onChange={({ target }) => this.setThreshold(target.value)}
+          />
+          <div className="bar" style={{width: amplitudeBarWidth.toFixed() + '%', backgroundColor: 'green'}} />
+        </div>
       </div>
     );
   }
