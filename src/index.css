@@ -5,10 +5,29 @@
   font-family: sans-serif;
 }
 
+body {
+  padding: 10px;
+}
+
+.graph {
+  display: flex;
+  align-items: flex-end;
+  height: 50vh;
+}
+
+.graph .sample {
+  flex: 1;
+  background-color: #ddd;
+}
+
+.graph .sample + .sample {
+  margin-left: 1px;
+}
+
 .control-panel {
   width: 100%;
   display: flex;
-  padding: 10px;
+  margin-top: 10px;
 }
 
 .control-panel .slider {

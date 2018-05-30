@@ -11,6 +11,8 @@ const DEBOUNCE_MAX = 3000;
 const VOLUME_MIN = 0;
 const VOLUME_MAX = 3;
 
+const SAMPLE_BUFFER_LENGTH = 200;
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -24,6 +26,7 @@ class App extends Component {
       amplitude: 0,
       debounce: loadNumber('debounce', 500),
       lastThresholdTime: 0,
+      samples: [],
       threshold: loadNumber('threshold', .5),
       volume: loadNumber('volume', 1),
     }
@@ -51,6 +54,25 @@ class App extends Component {
       ...state,
       volume,
     }));
+  }
+
+  handleSample(amplitude) {
+    const samples = this.state.samples.slice();
+    samples.push(amplitude);
+    if (samples.length > SAMPLE_BUFFER_LENGTH) {
+      samples.shift();
+    }
+    this.setState(state => ({
+      ...state,
+      amplitude,
+      samples,
+    }));
+  }
+
+  getSamples() {
+    const { samples } = this.state;
+    const zeroes = new Array(SAMPLE_BUFFER_LENGTH - samples.length).fill(0);
+    return [...zeroes, ...samples];
   }
 
   componentDidMount() {
@@ -92,10 +114,7 @@ class App extends Component {
         const now = +new Date();
         const amplitude = Math.max(...data);
 
-        this.setState(state => ({
-          ...state,
-          amplitude,
-        }));
+        this.handleSample(amplitude);
 
         if (amplitude > this.state.threshold) {
           lastThresholdTime = now;
@@ -124,6 +143,15 @@ class App extends Component {
     } = this.state;
     return (
       <div className="App">
+        <div className="graph">{
+          this.getSamples().map((sample, index) => (
+            <div
+              key={index}
+              className="sample"
+              style={{height: Math.floor(sample * 100) + '%'}}
+            />))
+        }
+        </div>
         <div className="control-panel">
           <Slider
             label="Threshold"
