@@ -1,5 +1,20 @@
-body {
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
   font-family: sans-serif;
+}
+
+.control-panel {
+  width: 100%;
+  display: flex;
+  padding: 10px;
+}
+
+.control-panel .slider {
+  flex: 1;
+}
+
+.control-panel > * + * {
+  margin-left: 10px;
 }
