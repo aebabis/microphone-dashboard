@@ -31,6 +31,8 @@ class App extends Component {
               for (let i = 0; i < BUFFER_LENGTH; i++) {
                 output[i] = data[i];
               }
+            } else {
+              sound.disconnect();
             }
           }
 
