@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Slider from './Slider';
+import Slider from './Slider/Slider';
 
 const THRESHOLD_MIN = .1;
 const THRESHOLD_MAX = 1;
