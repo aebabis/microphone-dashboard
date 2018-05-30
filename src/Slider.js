@@ -13,7 +13,11 @@ export default class Slider extends Component {
       backgroundWidth,
       backgroundColor,
     } = this.props;
-    const width = Math.max(0, backgroundWidth - min) * 100 / (max - min);
+
+    const width = Math.min(100, Math.max(0, backgroundWidth - min) * 100 / (max - min));
+    const decimal = step.split('.')[1];
+    const decimalPlaces = decimal ? decimal.length : 0;
+
     return (
       <div className="slider">
         <label>
@@ -31,7 +35,7 @@ export default class Slider extends Component {
           </div>
         </label>
         <div className="value">
-          {value.toFixed(step.split('.')[1].length)}
+          {value.toFixed(decimalPlaces)}
         </div>
       </div>
     );

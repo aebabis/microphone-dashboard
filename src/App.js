@@ -5,11 +5,16 @@ import Slider from './Slider';
 const THRESHOLD_MIN = .1;
 const THRESHOLD_MAX = 1;
 
+const DEBOUNCE_MIN = 100;
+const DEBOUNCE_MAX = 3000;
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       amplitude: 0,
+      debounce: 500,
+      lastThresholdTime: 0,
       threshold: .5,
     }
   }
@@ -21,8 +26,14 @@ class App extends Component {
     }));
   }
 
+  setDebounce(debounce) {
+    this.setState(state => ({
+      ...state,
+      debounce,
+    }));
+  }
+
   componentDidMount() {
-    const DEBOUNCE = 1000; // ms
     const BUFFER_LENGTH = 1024;
 
     navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
@@ -67,8 +78,12 @@ class App extends Component {
 
         if (amplitude > this.state.threshold) {
           lastThresholdTime = now;
+          this.setState(state => ({
+            ...state,
+            lastThresholdTime,
+          }));
         }
-        if (now - lastThresholdTime < DEBOUNCE) {
+        if (now - lastThresholdTime < this.state.debounce) {
           queue.push(data.slice());
         } else if (queue.length > 0) {
           playSoundQueue(queue);
@@ -81,20 +96,34 @@ class App extends Component {
   render() {
     const {
       amplitude,
+      debounce,
+      lastThresholdTime,
       threshold,
     } = this.state;
     return (
       <div className="App">
-        <Slider
-          label="Threshold"
-          min={THRESHOLD_MIN}
-          max={THRESHOLD_MAX}
-          step=".01"
-          value={threshold}
-          onChange={value => this.setThreshold(value)}
-          backgroundWidth={amplitude}
-          backgroundColor={'green'}
-        />
+        <div className="control-panel">
+          <Slider
+            label="Threshold"
+            min={THRESHOLD_MIN}
+            max={THRESHOLD_MAX}
+            step=".01"
+            value={threshold}
+            onChange={value => this.setThreshold(value)}
+            backgroundWidth={amplitude}
+            backgroundColor={'green'}
+          />
+          <Slider
+            label="Delay"
+            min={DEBOUNCE_MIN}
+            max={DEBOUNCE_MAX}
+            step="100"
+            value={debounce}
+            onChange={value => this.setDebounce(value)}
+            backgroundWidth={Math.min(debounce, new Date() - lastThresholdTime)}
+            backgroundColor={'skyblue'}
+          />
+        </div>
       </div>
     );
   }
