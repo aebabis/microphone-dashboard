@@ -1,7 +1,17 @@
 .slider {
+  padding: 5px;
+  background-color: #f3f3f3;
+}
+
+.slider label > span {
+  color: #999;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.slider .control {
   position: relative;
-  width: 200px;
-  height: 30px;
+  height: 25px;
 }
 
 .slider input {
@@ -16,6 +26,14 @@
 .slider .bar {
   position: absolute;
   height: 10px;
-  top: 12px;
+  top: 9px;
   left: 0;
+}
+
+.slider .value {
+  margin-top: 2px;
+  text-align: center;
+  color: #666;
+  font-weight: bold;
+  font-size: 12px;
 }

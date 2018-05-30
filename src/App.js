@@ -86,6 +86,7 @@ class App extends Component {
     return (
       <div className="App">
         <Slider
+          label="Threshold"
           min={THRESHOLD_MIN}
           max={THRESHOLD_MAX}
           step=".01"
