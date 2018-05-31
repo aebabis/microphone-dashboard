@@ -1,28 +1,27 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './History.css';
 
 import SoundService from '../SoundService';
 
-export default class History extends Component {
-  render() {
-    const {
-      onSelect,
-    } = this.props;
+export default ({ onSelect }) => {
+  const clips = SoundService.getClips();
 
-    const clips = SoundService.getClips();
-
-    return (
-      <ul className="history">{
-        clips.map(({data, timestamp, duration}) => (
-          <li
-            key={timestamp}
-          >
-            <button onClick={() => onSelect(data)}>
-              {timestamp}
-            </button>
-          </li>))
-      }
-      </ul>
-    );
-  }
-}
+  return (
+    <ul className="history">{
+      clips.map(({
+        id,
+        data,
+        timestamp,
+        duration,
+      }) => (
+        <li
+          key={timestamp}
+        >
+          {timestamp} - {duration}
+          <button onClick={() => SoundService.deleteClip(id)}>X</button>
+          <button onClick={() => onSelect(data)}>Play</button>
+        </li>))
+    }
+    </ul>
+  );
+};

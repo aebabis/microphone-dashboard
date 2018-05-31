@@ -1,10 +1,15 @@
-const clips = [];
+let clips = [];
 
 const SoundService = {
   BUFFER_LENGTH: 1024,
 
+  getClips() {
+    return clips.slice();
+  },
+
   saveClip(data, timestamp, duration) {
     clips.push({
+      id: Math.floor(Math.random() * 1000000),
       data,
       timestamp,
       duration,
@@ -14,8 +19,8 @@ const SoundService = {
     }
   },
 
-  getClips() {
-    return clips.slice();
+  deleteClip(id) {
+    clips = clips.filter(clip => clip.id !== id);
   },
 
   playSound(data, volume = 1) {

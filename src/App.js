@@ -47,6 +47,7 @@ class App extends Component {
       processor.connect(context.destination);
 
       let queue = [];
+      let thresholdStartTime = 0;
       let lastThresholdTime = 0;
       processor.onaudioprocess = ({ inputBuffer }) => {
         const data = inputBuffer.getChannelData(0);
@@ -57,6 +58,9 @@ class App extends Component {
 
         if (amplitude > this.state.threshold) {
           lastThresholdTime = now;
+          if (queue.length === 0) {
+            thresholdStartTime = now;
+          }
           this.setState(state => ({
             ...state,
             lastThresholdTime,
@@ -65,7 +69,7 @@ class App extends Component {
         if (now - lastThresholdTime < this.state.debounce) {
           queue.push(data.slice());
         } else if (queue.length > 0) {
-          SoundService.saveClip(queue, lastThresholdTime, now - lastThresholdTime);
+          SoundService.saveClip(queue, thresholdStartTime, now - thresholdStartTime);
           SoundService.playSound(queue, this.state.volume);
           queue = [];
         }
