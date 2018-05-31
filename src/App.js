@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 
+import Graph from './Graph/Graph';
+import History from './History/History';
 import Slider from './Slider/Slider';
+
+const BUFFER_LENGTH = 1024;
 
 const THRESHOLD_MIN = .1;
 const THRESHOLD_MAX = 1;
@@ -24,6 +28,7 @@ class App extends Component {
 
     this.state = {
       amplitude: 0,
+      clips: [],
       debounce: loadNumber('debounce', 500),
       lastThresholdTime: 0,
       samples: [],
@@ -69,15 +74,23 @@ class App extends Component {
     }));
   }
 
-  getSamples() {
-    const { samples } = this.state;
-    const zeroes = new Array(SAMPLE_BUFFER_LENGTH - samples.length).fill(0);
-    return [...zeroes, ...samples];
+  saveClip(data, timestamp, duration) {
+    const clips = this.state.clips.slice();
+    clips.push({
+      data,
+      timestamp,
+      duration,
+    });
+    if (clips.length > 10) {
+      clips.shift();
+    }
+    this.setState(state => ({
+      ...state,
+      clips,
+    }));
   }
 
-  componentDidMount() {
-    const BUFFER_LENGTH = 1024;
-
+  playSound(data) {
     navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
       const context = new AudioContext();
       const source = context.createMediaStreamSource(stream);
@@ -86,26 +99,34 @@ class App extends Component {
       source.connect(processor);
       processor.connect(context.destination);
 
-      const playSoundQueue = (queue) => {
-        setTimeout(() => {
-          const sound = context.createScriptProcessor(BUFFER_LENGTH, 1, 1);
-          sound.onaudioprocess = ({ outputBuffer }) => {
-            const { volume } = this.state;
-            if (queue.length > 0) {
-              const output = outputBuffer.getChannelData(0);
-              const data = queue.shift();
-              for (let i = 0; i < BUFFER_LENGTH; i++) {
-                output[i] = data[i] * volume;
-              }
-            } else {
-              sound.disconnect();
-            }
+      const queue = data.slice();
+      const sound = context.createScriptProcessor(BUFFER_LENGTH, 1, 1);
+      sound.onaudioprocess = ({ outputBuffer }) => {
+        const { volume } = this.state;
+        if (queue.length > 0) {
+          const output = outputBuffer.getChannelData(0);
+          const data = queue.shift();
+          for (let i = 0; i < BUFFER_LENGTH; i++) {
+            output[i] = data[i] * volume;
           }
-
-          sound.loop = false;
-          sound.connect(context.destination);
-        });
+        } else {
+          sound.disconnect();
+        }
       }
+
+      sound.loop = false;
+      sound.connect(context.destination);
+    });
+  }
+
+  componentDidMount() {
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+      const context = new AudioContext();
+      const source = context.createMediaStreamSource(stream);
+      const processor = context.createScriptProcessor(BUFFER_LENGTH, 1, 1);
+
+      source.connect(processor);
+      processor.connect(context.destination);
 
       let queue = [];
       let lastThresholdTime = 0;
@@ -126,7 +147,8 @@ class App extends Component {
         if (now - lastThresholdTime < this.state.debounce) {
           queue.push(data.slice());
         } else if (queue.length > 0) {
-          playSoundQueue(queue);
+          this.saveClip(queue, lastThresholdTime, now - lastThresholdTime);
+          this.playSound(queue);
           queue = [];
         }
       };
@@ -136,53 +158,64 @@ class App extends Component {
   render() {
     const {
       amplitude,
+      clips,
       debounce,
       lastThresholdTime,
+      samples,
       threshold,
       volume,
     } = this.state;
     return (
       <div className="App">
-        <div className="graph">{
-          this.getSamples().map((sample, index) => (
-            <div
-              key={index}
-              className="sample"
-              style={{height: Math.floor(sample * 100) + '%'}}
-            />))
-        }
-        </div>
-        <div className="control-panel">
-          <Slider
-            label="Threshold"
-            min={THRESHOLD_MIN}
-            max={THRESHOLD_MAX}
-            step=".01"
-            value={threshold}
-            onChange={value => this.setThreshold(value)}
-            backgroundWidth={amplitude}
-            backgroundColor={'green'}
-          />
-          <Slider
-            label="Delay"
-            min={DEBOUNCE_MIN}
-            max={DEBOUNCE_MAX}
-            step="100"
-            value={debounce}
-            onChange={value => this.setDebounce(value)}
-            backgroundWidth={Math.min(debounce, new Date() - lastThresholdTime)}
-            backgroundColor={'skyblue'}
-          />
-          <Slider
-            label="Volume"
-            min={VOLUME_MIN}
-            max={VOLUME_MAX}
-            step=".1"
-            value={volume}
-            onChange={value => this.setVolume(value)}
-            backgroundWidth={amplitude * volume}
-            backgroundColor={'green'}
-          />
+        <div className="soundboard">
+          <div className="left">
+            <History
+              clips={clips}
+              onSelect={(data) => this.playSound(data)}
+            />
+          </div>
+          <div className="middle">
+            <div className="graphs">
+              <Graph
+                values={samples}
+                maxSize={SAMPLE_BUFFER_LENGTH}
+              />
+            </div>
+            <div className="control-panel">
+              <Slider
+                label="Threshold"
+                min={THRESHOLD_MIN}
+                max={THRESHOLD_MAX}
+                step=".01"
+                value={threshold}
+                onChange={value => this.setThreshold(value)}
+                backgroundWidth={amplitude}
+                backgroundColor={'green'}
+              />
+              <Slider
+                label="Delay"
+                min={DEBOUNCE_MIN}
+                max={DEBOUNCE_MAX}
+                step="100"
+                value={debounce}
+                onChange={value => this.setDebounce(value)}
+                backgroundWidth={Math.min(debounce, new Date() - lastThresholdTime)}
+                backgroundColor={'skyblue'}
+              />
+              <Slider
+                label="Volume"
+                min={VOLUME_MIN}
+                max={VOLUME_MAX}
+                step=".1"
+                value={volume}
+                onChange={value => this.setVolume(value)}
+                backgroundWidth={amplitude * volume}
+                backgroundColor={'green'}
+              />
+            </div>
+          </div>
+          <div className="right">
+          </div>
         </div>
       </div>
     );
