@@ -1,0 +1,17 @@
+ul.history {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #f3f3f3;
+  padding: 5px;
+  list-style: none;
+}
+
+ul.history li {
+  background-color: #dfdfdf;
+  flex-shrink: 1;
+}
+
+ul.history li + li {
+  margin-top: 5px;
+}

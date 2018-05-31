@@ -22,6 +22,10 @@ body {
   display: flex;
 }
 
+.soundboard > * + * {
+  margin-left: 10px;
+}
+
 .left,
 .right {
   width: 10%;
