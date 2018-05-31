@@ -9,14 +9,18 @@ export default (props) => {
     maxSize,
   } = props;
 
-  const zeroes = new Array(maxSize - values.length).fill(0);
-  const valuesList = [...zeroes, ...values];
+  let valuesList;
+  if (typeof maxSize === 'number') {
+    const zeroes = new Array(maxSize - values.length).fill(0);
+    valuesList = [...zeroes, ...values];
+  } else {
+    valuesList = values;
+  }
 
   return (
     <div className="graph">{
       valuesList.map(sample => (
         <div
-          key={sample}
           className="sample"
           style={{ height: `${(Math.floor((sample - minValue) * 100) / maxValue)}%` }}
         />))
