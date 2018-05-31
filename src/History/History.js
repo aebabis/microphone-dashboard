@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import './History.css';
 
+import SoundService from '../SoundService';
+
 export default class History extends Component {
   render() {
     const {
-      clips,
       onSelect,
     } = this.props;
+
+    const clips = SoundService.getClips();
 
     return (
       <ul className="history">{

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
+import SoundService from './SoundService';
+
 import Graph from './Graph/Graph';
 import History from './History/History';
 import Slider from './Slider/Slider';
 
-const BUFFER_LENGTH = 1024;
-
-const THRESHOLD_MIN = .1;
+const THRESHOLD_MIN = 0.1;
 const THRESHOLD_MAX = 1;
 
 const DEBOUNCE_MIN = 100;
@@ -24,7 +24,7 @@ class App extends Component {
     const loadNumber = (prop, def) => {
       const value = localStorage[prop];
       return typeof value === 'string' ? +value : def;
-    }
+    };
 
     this.state = {
       amplitude: 0,
@@ -32,9 +32,45 @@ class App extends Component {
       debounce: loadNumber('debounce', 500),
       lastThresholdTime: 0,
       samples: [],
-      threshold: loadNumber('threshold', .5),
+      threshold: loadNumber('threshold', 0.5),
       volume: loadNumber('volume', 1),
     }
+  }
+
+  componentDidMount() {
+    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+      const context = new AudioContext();
+      const source = context.createMediaStreamSource(stream);
+      const processor = context.createScriptProcessor(SoundService.BUFFER_LENGTH, 1, 1);
+
+      source.connect(processor);
+      processor.connect(context.destination);
+
+      let queue = [];
+      let lastThresholdTime = 0;
+      processor.onaudioprocess = ({ inputBuffer }) => {
+        const data = inputBuffer.getChannelData(0);
+        const now = +new Date();
+        const amplitude = Math.max(...data);
+
+        this.handleSample(amplitude);
+
+        if (amplitude > this.state.threshold) {
+          lastThresholdTime = now;
+          this.setState(state => ({
+            ...state,
+            lastThresholdTime,
+          }));
+        }
+        if (now - lastThresholdTime < this.state.debounce) {
+          queue.push(data.slice());
+        } else if (queue.length > 0) {
+          SoundService.saveClip(queue, lastThresholdTime, now - lastThresholdTime);
+          SoundService.playSound(queue, this.state.volume);
+          queue = [];
+        }
+      };
+    });
   }
 
   setDebounce(debounce) {
@@ -74,87 +110,6 @@ class App extends Component {
     }));
   }
 
-  saveClip(data, timestamp, duration) {
-    const clips = this.state.clips.slice();
-    clips.push({
-      data,
-      timestamp,
-      duration,
-    });
-    if (clips.length > 10) {
-      clips.shift();
-    }
-    this.setState(state => ({
-      ...state,
-      clips,
-    }));
-  }
-
-  playSound(data) {
-    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-      const context = new AudioContext();
-      const source = context.createMediaStreamSource(stream);
-      const processor = context.createScriptProcessor(BUFFER_LENGTH, 1, 1);
-
-      source.connect(processor);
-      processor.connect(context.destination);
-
-      const queue = data.slice();
-      const sound = context.createScriptProcessor(BUFFER_LENGTH, 1, 1);
-      sound.onaudioprocess = ({ outputBuffer }) => {
-        const { volume } = this.state;
-        if (queue.length > 0) {
-          const output = outputBuffer.getChannelData(0);
-          const data = queue.shift();
-          for (let i = 0; i < BUFFER_LENGTH; i++) {
-            output[i] = data[i] * volume;
-          }
-        } else {
-          sound.disconnect();
-        }
-      }
-
-      sound.loop = false;
-      sound.connect(context.destination);
-    });
-  }
-
-  componentDidMount() {
-    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-      const context = new AudioContext();
-      const source = context.createMediaStreamSource(stream);
-      const processor = context.createScriptProcessor(BUFFER_LENGTH, 1, 1);
-
-      source.connect(processor);
-      processor.connect(context.destination);
-
-      let queue = [];
-      let lastThresholdTime = 0;
-      processor.onaudioprocess = ({ inputBuffer }) => {
-        const data = inputBuffer.getChannelData(0);
-        const now = +new Date();
-        const amplitude = Math.max(...data);
-
-        this.handleSample(amplitude);
-
-        if (amplitude > this.state.threshold) {
-          lastThresholdTime = now;
-          this.setState(state => ({
-            ...state,
-            lastThresholdTime,
-          }));
-        }
-        if (now - lastThresholdTime < this.state.debounce) {
-          queue.push(data.slice());
-        } else if (queue.length > 0) {
-          this.saveClip(queue, lastThresholdTime, now - lastThresholdTime);
-          this.playSound(queue);
-          queue = [];
-        }
-      };
-    });
-  }
-
   render() {
     const {
       amplitude,
@@ -171,7 +126,7 @@ class App extends Component {
           <div className="left">
             <History
               clips={clips}
-              onSelect={(data) => this.playSound(data)}
+              onSelect={data => SoundService.playSound(data, volume)}
             />
           </div>
           <div className="middle">
