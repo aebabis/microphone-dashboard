@@ -8,7 +8,7 @@ ul.history {
 }
 
 ul.history li {
-  background-color: #dfdfdf;
+  background-color: #e2e4e4;
   flex: 1;
   max-height: 10%;
   display: flex;
@@ -29,6 +29,25 @@ ul.history .graph .sample {
   background-color: #ccc;
 }
 
-ul.history .time-stamp {
+ul.history .time {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  padding: 1px 5px;
+}
+
+ul.history .timestamp {
+  /* background-color: #e2e4e4; */
+  font-size: 11px;
+  color: #679;
+}
+
+ul.history .duration {
+  font-size: 13px;
+  font-weight: bold;
+  color: #777;
 }

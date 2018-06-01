@@ -22,8 +22,9 @@ export default ({ onSelect }) => {
           key={timestamp}
         >
           <Graph values={samples} />
-          <div className="time-stamp">
-            {moment(timestamp).format('YYYY-MM-DD HH:mm:ss')} - {duration}
+          <div className="time">
+            <div className="timestamp">{moment(timestamp).format('YYYY-MM-DD HH:mm:ss')}</div>
+            <div className="duration">{duration}ms</div>
           </div>
           {/* <button onClick={() => SoundService.deleteClip(id)}>X</button>
           <button onClick={() => onSelect(data)}>Play</button> */}
