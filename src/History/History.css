@@ -51,3 +51,41 @@ ul.history .duration {
   font-weight: bold;
   color: #777;
 }
+
+ul.history .buttons {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+ul.history button.play {
+  border: solid 1px #999;
+  border-radius: 50%;
+  height: 6vh;
+  width: 6vh;
+  text-align: center;
+}
+
+ul.history button.play::after {
+  content: ' ';
+  display: block;
+  width: 0;
+	height: 0;
+	border-top: 2vh solid transparent;
+	border-left: 4vh solid #999;
+  border-bottom: 2vh solid transparent;
+  margin-left: 1.4vh;
+}
+
+ul.history button.play:hover {
+  border-color: green;
+}
+
+ul.history button.play:hover::after {
+  border-left-color: green;
+}

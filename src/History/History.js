@@ -26,8 +26,11 @@ export default ({ onSelect }) => {
             <div className="timestamp">{moment(timestamp).format('YYYY-MM-DD HH:mm:ss')}</div>
             <div className="duration">{duration}ms</div>
           </div>
+          <div className="buttons">
+            <button className="play" title="Play" onClick={() => onSelect(data)} />
+          </div>
           {/* <button onClick={() => SoundService.deleteClip(id)}>X</button>
-          <button onClick={() => onSelect(data)}>Play</button> */}
+           */}
         </li>))
     }
     </ul>
