@@ -6,7 +6,7 @@ import Graph from './Graph/Graph';
 import History from './History/History';
 import Slider from './Slider/Slider';
 
-const THRESHOLD_MIN = 0.1;
+const THRESHOLD_MIN = 0.01;
 const THRESHOLD_MAX = 1;
 
 const DEBOUNCE_MIN = 100;
@@ -32,9 +32,10 @@ class App extends Component {
       debounce: loadNumber('debounce', 500),
       lastThresholdTime: 0,
       samples: [],
-      threshold: loadNumber('threshold', 0.5),
+      lowerThreshold: loadNumber('lowerThreshold', 0.05),
+      upperThreshold: loadNumber('upperThreshold', 0.15),
       volume: loadNumber('volume', 1),
-    }
+    };
   }
 
   componentDidMount() {
@@ -55,27 +56,30 @@ class App extends Component {
         const amplitude = Math.max(...data);
         const {
           debounce,
-          threshold,
+          lowerThreshold,
+          upperThreshold,
           volume,
         } = this.state;
 
         this.handleSample(amplitude);
 
-        if (amplitude > threshold) {
-          lastThresholdTime = now;
-          if (queue.length === 0) {
+        if (amplitude > lowerThreshold) {
+          if (queue.length > 0 || amplitude > upperThreshold) {
+            lastThresholdTime = now;
+            this.setState(state => ({
+              ...state,
+              lastThresholdTime,
+            }));
+          }
+          if (queue.length === 0 && amplitude > upperThreshold) {
             thresholdStartTime = now;
           }
-          this.setState(state => ({
-            ...state,
-            lastThresholdTime,
-          }));
         }
         if (now - lastThresholdTime < debounce) {
           queue.push(data.slice());
         } else if (queue.length > 0) {
           const samples = queue.map(arr => Math.max(...arr));
-          while (samples[samples.length - 1] < threshold) {
+          while (samples[samples.length - 1] < lowerThreshold) {
             samples.pop();
           }
           SoundService.saveClip(queue, thresholdStartTime, now - thresholdStartTime, samples);
@@ -94,11 +98,19 @@ class App extends Component {
     }));
   }
 
-  setThreshold(threshold) {
-    localStorage.threshold = threshold;
+  setLowerThreshold(lowerThreshold) {
+    localStorage.lowerThreshold = lowerThreshold;
     this.setState(state => ({
       ...state,
-      threshold,
+      lowerThreshold,
+    }));
+  }
+
+  setUpperThreshold(upperThreshold) {
+    localStorage.upperThreshold = upperThreshold;
+    this.setState(state => ({
+      ...state,
+      upperThreshold,
     }));
   }
 
@@ -130,7 +142,8 @@ class App extends Component {
       debounce,
       lastThresholdTime,
       samples,
-      threshold,
+      lowerThreshold,
+      upperThreshold,
       volume,
     } = this.state;
     return (
@@ -151,12 +164,22 @@ class App extends Component {
             </div>
             <div className="control-panel">
               <Slider
-                label="Threshold"
+                label="Lower Threshold"
                 min={THRESHOLD_MIN}
                 max={THRESHOLD_MAX}
                 step=".01"
-                value={threshold}
-                onChange={value => this.setThreshold(value)}
+                value={lowerThreshold}
+                onChange={value => this.setLowerThreshold(value)}
+                backgroundWidth={amplitude}
+                backgroundColor={'green'}
+              />
+              <Slider
+                label="Upper Threshold"
+                min={THRESHOLD_MIN}
+                max={THRESHOLD_MAX}
+                step=".01"
+                value={upperThreshold}
+                onChange={value => this.setUpperThreshold(value)}
                 backgroundWidth={amplitude}
                 backgroundColor={'green'}
               />
