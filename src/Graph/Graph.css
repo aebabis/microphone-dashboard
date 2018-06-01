@@ -7,7 +7,3 @@
   flex: 1;
   background-color: #ddd;
 }
-
-.graph .sample + .sample {
-  margin-left: 1px;
-}
