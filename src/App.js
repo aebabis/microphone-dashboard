@@ -53,10 +53,15 @@ class App extends Component {
         const data = inputBuffer.getChannelData(0);
         const now = +new Date();
         const amplitude = Math.max(...data);
+        const {
+          debounce,
+          threshold,
+          volume,
+        } = this.state;
 
         this.handleSample(amplitude);
 
-        if (amplitude > this.state.threshold) {
+        if (amplitude > threshold) {
           lastThresholdTime = now;
           if (queue.length === 0) {
             thresholdStartTime = now;
@@ -66,11 +71,15 @@ class App extends Component {
             lastThresholdTime,
           }));
         }
-        if (now - lastThresholdTime < this.state.debounce) {
+        if (now - lastThresholdTime < debounce) {
           queue.push(data.slice());
         } else if (queue.length > 0) {
-          SoundService.saveClip(queue, thresholdStartTime, now - thresholdStartTime);
-          SoundService.playSound(queue, this.state.volume);
+          const samples = queue.map(arr => Math.max(...arr));
+          while (samples[samples.length - 1] < threshold) {
+            samples.pop();
+          }
+          SoundService.saveClip(queue, thresholdStartTime, now - thresholdStartTime, samples);
+          SoundService.playSound(queue, volume);
           queue = [];
         }
       };

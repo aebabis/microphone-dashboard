@@ -7,12 +7,13 @@ const SoundService = {
     return clips.slice();
   },
 
-  saveClip(data, timestamp, duration) {
+  saveClip(data, timestamp, duration, samples) {
     clips.push({
       id: Math.floor(Math.random() * 1000000),
       data,
       timestamp,
       duration,
+      samples,
     });
     if (clips.length > 10) {
       clips.shift();

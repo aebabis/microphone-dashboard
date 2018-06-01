@@ -9,9 +9,26 @@ ul.history {
 
 ul.history li {
   background-color: #dfdfdf;
-  flex-shrink: 1;
+  flex: 1;
+  max-height: 10%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
 ul.history li + li {
   margin-top: 5px;
+}
+
+ul.history .graph {
+  flex: 1;
+  margin: 5%;
+}
+
+ul.history .graph .sample {
+  background-color: #ccc;
+}
+
+ul.history .time-stamp {
+  position: absolute;
 }
