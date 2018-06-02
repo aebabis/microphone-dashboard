@@ -76,10 +76,10 @@ ul.history button.play::after {
   display: block;
   width: 0;
 	height: 0;
-	border-top: 2vh solid transparent;
-	border-left: 4vh solid #999;
-  border-bottom: 2vh solid transparent;
-  margin-left: 1.4vh;
+	border-top: 2vmin solid transparent;
+	border-left: 4vmin solid #999;
+  border-bottom: 2vmin solid transparent;
+  margin-left: 1.4vmin;
 }
 
 ul.history button.play:hover {
@@ -89,3 +89,26 @@ ul.history button.play:hover {
 ul.history button.play:hover::after {
   border-left-color: green;
 }
+
+ul.history button.delete {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 16px;
+  height: 16px;
+  background-color: #bbb;
+}
+
+ul.history button.delete:hover {
+  background-color: #888;
+}
+
+ul.history button.delete > div {
+  position: absolute;
+  border: solid 7px transparent;
+}
+
+ul.history button.delete .top    { border-top-color: #e2e4e4; top: 0; left: 1px; }
+ul.history button.delete .right  { border-right-color: #e2e4e4; right: 0; top: 1px; }
+ul.history button.delete .bottom { border-bottom-color: #e2e4e4; bottom: 0; left: 1px; }
+ul.history button.delete .left   { border-left-color: #e2e4e4; left: 0; top: 1px; }

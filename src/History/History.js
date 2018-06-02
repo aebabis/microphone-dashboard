@@ -29,8 +29,12 @@ export default ({ onSelect }) => {
           <div className="buttons">
             <button className="play" title="Play" onClick={() => onSelect(data)} />
           </div>
-          {/* <button onClick={() => SoundService.deleteClip(id)}>X</button>
-           */}
+          <button className="delete" title="Delete" onClick={() => SoundService.deleteClip(id)}>
+            <div className="top" />
+            <div className="right" />
+            <div className="bottom" />
+            <div className="left" />
+          </button>
         </li>))
     }
     </ul>
