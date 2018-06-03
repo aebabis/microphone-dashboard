@@ -60,9 +60,9 @@ const SoundService = {
       sound.onaudioprocess = ({ outputBuffer }) => {
         if (queue.length > 0) {
           const output = outputBuffer.getChannelData(0);
-          const data = queue.shift();
-          for (let i = 0; i < SoundService.BUFFER_LENGTH; i++) {
-            output[i] = data[i] * volume;
+          const buffer = queue.shift();
+          for (let i = 0; i < SoundService.BUFFER_LENGTH; i += 1) {
+            output[i] = buffer[i] * volume;
           }
         } else {
           sound.disconnect();
