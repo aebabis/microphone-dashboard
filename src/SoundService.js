@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import RecorderWorker from './RecorderWorker';
 
 let clips = [];
@@ -7,6 +9,10 @@ const SoundService = {
 
   getClips() {
     return clips.slice();
+  },
+
+  getClip(id) {
+    return clips.find(clip => clip.id === id);
   },
 
   saveClip(data, timestamp, duration, samples) {
@@ -26,7 +32,8 @@ const SoundService = {
     clips = clips.filter(clip => clip.id !== id);
   },
 
-  downloadClip(clip) {
+  downloadClip(id) {
+    const clip = SoundService.getClip(id);
     const worker = RecorderWorker();
     worker.addEventListener('message', ({ data }) => {
       const url = URL.createObjectURL(data);
@@ -34,13 +41,13 @@ const SoundService = {
       document.body.appendChild(a);
       a.style = 'display: none';
       a.href = url;
-      a.download = 'audio.wav';
+      a.download = `voice-clip ${moment(clip.timestamp).format('YYYY-MM-DD HH:mm:ss')}.wav`;
       a.click();
       window.URL.revokeObjectURL(url);
     });
 
     worker.postMessage({ command: 'init', config: { sampleRate: new AudioContext().sampleRate } });
-    clip.forEach((buffer) => {
+    clip.data.forEach((buffer) => {
       worker.postMessage({ command: 'record', buffer: [buffer, buffer] });
     });
     worker.postMessage({ command: 'exportWAV', type: 'audio/wav' });

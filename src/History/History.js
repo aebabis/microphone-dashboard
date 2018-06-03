@@ -32,7 +32,7 @@ export default () => {
           <button
             className="download"
             title="Download"
-            onClick={() => SoundService.downloadClip(data)}
+            onClick={() => SoundService.downloadClip(id)}
           >
             Download
           </button>
