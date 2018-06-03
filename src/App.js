@@ -171,7 +171,7 @@ class App extends Component {
                 value={lowerThreshold}
                 onChange={value => this.setLowerThreshold(value)}
                 backgroundWidth={amplitude}
-                backgroundColor={'green'}
+                backgroundColor="green"
               />
               <Slider
                 label="Upper Threshold"
@@ -181,7 +181,7 @@ class App extends Component {
                 value={upperThreshold}
                 onChange={value => this.setUpperThreshold(value)}
                 backgroundWidth={amplitude}
-                backgroundColor={'green'}
+                backgroundColor="green"
               />
               <Slider
                 label="Delay"
@@ -191,7 +191,7 @@ class App extends Component {
                 value={debounce}
                 onChange={value => this.setDebounce(value)}
                 backgroundWidth={Math.min(debounce, new Date() - lastThresholdTime)}
-                backgroundColor={'skyblue'}
+                backgroundColor="skyblue"
               />
               <Slider
                 label="Volume"
@@ -201,12 +201,11 @@ class App extends Component {
                 value={volume}
                 onChange={value => this.setVolume(value)}
                 backgroundWidth={amplitude * volume}
-                backgroundColor={'green'}
+                backgroundColor="green"
               />
             </div>
           </div>
-          <div className="right">
-          </div>
+          <div className="right" />
         </div>
       </div>
     );

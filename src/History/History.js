@@ -6,7 +6,7 @@ import './History.css';
 import SoundService from '../SoundService';
 import Graph from '../Graph/Graph';
 
-export default ({ onSelect }) => {
+export default () => {
   const clips = SoundService.getClips();
 
   return (
@@ -27,7 +27,7 @@ export default ({ onSelect }) => {
             <div className="duration">{duration}ms</div>
           </div>
           <div className="buttons">
-            <button className="play" title="Play" onClick={() => onSelect(data)} />
+            <button className="play" title="Play" onClick={() => SoundService.playSound(data)} />
           </div>
           <button
             className="download"

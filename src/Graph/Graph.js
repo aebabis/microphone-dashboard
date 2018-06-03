@@ -1,11 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import './Graph.css';
 
-export default (props) => {
+const Graph = (props) => {
   const {
     values,
-    minValue = 0,
-    maxValue = 1,
+    minValue,
+    maxValue,
     maxSize,
   } = props;
 
@@ -28,3 +30,19 @@ export default (props) => {
     </div>
   );
 };
+
+Graph.propTypes = {
+  values: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
+  minValue: PropTypes.number,
+  maxValue: PropTypes.number,
+  maxSize: PropTypes.number,
+};
+
+Graph.defaultProps = {
+  values: undefined,
+  minValue: 0,
+  maxValue: 1,
+  maxSize: undefined,
+};
+
+export default Graph;
