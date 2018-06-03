@@ -1,3 +1,5 @@
+import RecorderWorker from './RecorderWorker';
+
 let clips = [];
 
 const SoundService = {
@@ -22,6 +24,26 @@ const SoundService = {
 
   deleteClip(id) {
     clips = clips.filter(clip => clip.id !== id);
+  },
+
+  downloadClip(clip) {
+    const worker = RecorderWorker();
+    worker.addEventListener('message', ({ data }) => {
+      const url = URL.createObjectURL(data);
+      const a = document.createElement('a');
+      document.body.appendChild(a);
+      a.style = 'display: none';
+      a.href = url;
+      a.download = 'audio.wav';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+
+    worker.postMessage({ command: 'init', config: { sampleRate: new AudioContext().sampleRate } });
+    clip.forEach((buffer) => {
+      worker.postMessage({ command: 'record', buffer: [buffer, buffer] });
+    });
+    worker.postMessage({ command: 'exportWAV', type: 'audio/wav' });
   },
 
   playSound(data, volume = 1) {

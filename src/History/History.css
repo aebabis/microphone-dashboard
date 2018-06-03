@@ -90,6 +90,15 @@ ul.history button.play:hover::after {
   border-left-color: green;
 }
 
+ul.history button.download {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 13px;
+  color: #79b;
+  cursor: pointer;
+}
+
 ul.history button.delete {
   position: absolute;
   top: 5px;
