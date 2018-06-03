@@ -7,15 +7,6 @@ ul.history {
   list-style: none;
 }
 
-ul.history li {
-  background-color: #e2e4e4;
-  flex: 1;
-  max-height: 10%;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
 ul.history li + li {
   margin-top: 5px;
 }
@@ -23,71 +14,6 @@ ul.history li + li {
 ul.history .graph {
   flex: 1;
   margin: 5%;
-}
-
-ul.history .graph .sample {
-  background-color: #ccc;
-}
-
-ul.history .time {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  left: 0;
-  padding: 1px 5px;
-}
-
-ul.history .timestamp {
-  /* background-color: #e2e4e4; */
-  font-size: 11px;
-  color: #679;
-}
-
-ul.history .duration {
-  font-size: 13px;
-  font-weight: bold;
-  color: #777;
-}
-
-ul.history .buttons {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-ul.history button.play {
-  border: solid 1px #999;
-  border-radius: 50%;
-  height: 6vh;
-  width: 6vh;
-  text-align: center;
-}
-
-ul.history button.play::after {
-  content: ' ';
-  display: block;
-  width: 0;
-	height: 0;
-	border-top: 2vmin solid transparent;
-	border-left: 4vmin solid #999;
-  border-bottom: 2vmin solid transparent;
-  margin-left: 1.4vmin;
-}
-
-ul.history button.play:hover {
-  border-color: green;
-}
-
-ul.history button.play:hover::after {
-  border-left-color: green;
 }
 
 ul.history button.download {
@@ -98,26 +24,3 @@ ul.history button.download {
   color: #79b;
   cursor: pointer;
 }
-
-ul.history button.delete {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 16px;
-  height: 16px;
-  background-color: #bbb;
-}
-
-ul.history button.delete:hover {
-  background-color: #888;
-}
-
-ul.history button.delete > div {
-  position: absolute;
-  border: solid 7px transparent;
-}
-
-ul.history button.delete .top    { border-top-color: #e2e4e4; top: 0; left: 1px; }
-ul.history button.delete .right  { border-right-color: #e2e4e4; right: 0; top: 1px; }
-ul.history button.delete .bottom { border-bottom-color: #e2e4e4; bottom: 0; left: 1px; }
-ul.history button.delete .left   { border-left-color: #e2e4e4; left: 0; top: 1px; }

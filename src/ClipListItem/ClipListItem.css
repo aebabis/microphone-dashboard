@@ -1,0 +1,104 @@
+.clip-list-item {
+  background-color: #e2e4e4;
+  flex: 1;
+  max-height: 10%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.clip-list-item .graph .sample {
+  background-color: #ccc;
+}
+
+.clip-list-item .time {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  padding: 1px 5px;
+}
+
+.clip-list-item .timestamp {
+  font-size: 11px;
+  color: #679;
+}
+
+.clip-list-item .duration {
+  font-size: 13px;
+  font-weight: bold;
+  color: #777;
+}
+
+.clip-list-item .buttons {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clip-list-item button.play {
+  border: solid 1px #999;
+  border-radius: 50%;
+  height: 6vh;
+  width: 6vh;
+  text-align: center;
+}
+
+.clip-list-item button.play::after {
+  content: ' ';
+  display: block;
+  width: 0;
+	height: 0;
+	border-top: 2vmin solid transparent;
+	border-left: 4vmin solid #999;
+  border-bottom: 2vmin solid transparent;
+  margin-left: 1.4vmin;
+}
+
+.clip-list-item button.play:hover {
+  border-color: green;
+}
+
+.clip-list-item button.play:hover::after {
+  border-left-color: green;
+}
+
+.clip-list-item button.download {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 13px;
+  color: #79b;
+  cursor: pointer;
+}
+
+.clip-list-item button.delete {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 16px;
+  height: 16px;
+  background-color: #bbb;
+}
+
+.clip-list-item button.delete:hover {
+  background-color: #888;
+}
+
+.clip-list-item button.delete > div {
+  position: absolute;
+  border: solid 7px transparent;
+}
+
+.clip-list-item button.delete .top    { border-top-color: #e2e4e4; top: 0; left: 1px; }
+.clip-list-item button.delete .right  { border-right-color: #e2e4e4; right: 0; top: 1px; }
+.clip-list-item button.delete .bottom { border-bottom-color: #e2e4e4; bottom: 0; left: 1px; }
+.clip-list-item button.delete .left   { border-left-color: #e2e4e4; left: 0; top: 1px; }

@@ -28,7 +28,6 @@ class App extends Component {
 
     this.state = {
       amplitude: 0,
-      clips: [],
       debounce: loadNumber('debounce', 500),
       lastThresholdTime: 0,
       samples: [],
@@ -138,7 +137,6 @@ class App extends Component {
   render() {
     const {
       amplitude,
-      clips,
       debounce,
       lastThresholdTime,
       samples,
@@ -150,10 +148,7 @@ class App extends Component {
       <div className="App">
         <div className="soundboard">
           <div className="left">
-            <History
-              clips={clips}
-              onSelect={data => SoundService.playSound(data, volume)}
-            />
+            <History />
           </div>
           <div className="middle">
             <div className="graphs">
