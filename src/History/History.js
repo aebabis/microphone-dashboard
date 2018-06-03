@@ -11,7 +11,7 @@ export default () => {
   return (
     <ul className="history">{
       clips.map(clip => (
-        <ClipListItem clip={clip}>
+        <ClipListItem key={clip.timestamp} clip={clip}>
           <button
             className="download"
             title="Download"

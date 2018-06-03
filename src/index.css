@@ -32,15 +32,22 @@ button {
   margin-left: 10px;
 }
 
-.left,
-.right {
+.soundboard > .left,
+.soundboard > .right {
   width: 10%;
+  background-color: #f3f3f3;
 }
 
-.middle {
+.soundboard > .middle {
   display: flex;
   flex-direction: column;
   flex: 1;
+}
+
+.soundboard > .right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .graphs {
@@ -65,4 +72,15 @@ button {
 
 .control-panel > * + * {
   margin-left: 10px;
+}
+
+.attribution {
+  padding: 5px;
+  font-size: 10px;
+  color: #aaa;
+}
+
+.attribution a {
+  text-decoration: none;
+  color: #79b;
 }

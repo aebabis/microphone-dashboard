@@ -32,7 +32,7 @@ const Graph = (props) => {
 };
 
 Graph.propTypes = {
-  values: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
+  values: PropTypes.arrayOf(PropTypes.number),
   minValue: PropTypes.number,
   maxValue: PropTypes.number,
   maxSize: PropTypes.number,
