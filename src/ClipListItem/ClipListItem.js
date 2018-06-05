@@ -9,10 +9,10 @@ import Graph from '../Graph/Graph';
 
 const ClipListItem = ({
   clip,
+  onDelete,
   children,
 }) => (
   <li
-    key={clip.timestamp}
     className="clip-list-item"
   >
     <Graph values={clip.samples} />
@@ -23,7 +23,14 @@ const ClipListItem = ({
     <div className="buttons">
       <button className="play" title="Play" onClick={() => SoundService.playSound(clip.data)} />
     </div>
-    <button className="delete" title="Delete" onClick={() => SoundService.deleteClip(clip.id)}>
+    <button
+      className="download"
+      title="Download"
+      onClick={() => SoundService.downloadClip(clip.id)}
+    >
+      Download
+    </button>
+    <button className="delete" title="Delete" onClick={() => onDelete(clip.id)}>
       <div className="top" />
       <div className="right" />
       <div className="bottom" />
@@ -34,12 +41,13 @@ const ClipListItem = ({
 
 ClipListItem.propTypes = {
   clip: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     data: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
     timestamp: PropTypes.number,
     duration: PropTypes.number,
     samples: PropTypes.arrayOf(PropTypes.number),
   }).isRequired,
+  onDelete: PropTypes.func.isRequired,
   children: PropTypes.node,
 };
 

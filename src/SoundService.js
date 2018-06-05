@@ -2,34 +2,50 @@ import moment from 'moment';
 
 import RecorderWorker from './RecorderWorker';
 
-let clips = [];
+let historyClips = [];
+let pinnedClips = [];
 
 const SoundService = {
   BUFFER_LENGTH: 1024,
 
-  getClips() {
-    return clips.slice();
+  getHistoryClips() {
+    return historyClips.slice();
+  },
+
+  getPinnedClips() {
+    return pinnedClips.slice();
   },
 
   getClip(id) {
-    return clips.find(clip => clip.id === id);
+    return historyClips.find(clip => clip.id === id) ||
+      pinnedClips.find(clip => clip.id === id);
   },
 
   saveClip(data, timestamp, duration, samples) {
-    clips.push({
+    historyClips.push({
       id: Math.floor(Math.random() * 1000000),
       data,
       timestamp,
       duration,
       samples,
     });
-    if (clips.length > 10) {
-      clips.shift();
+    if (historyClips.length > 10) {
+      historyClips.shift();
     }
   },
 
-  deleteClip(id) {
-    clips = clips.filter(clip => clip.id !== id);
+  pinClip(id) {
+    const index = historyClips.findIndex(clip => clip.id === id);
+    const clip = historyClips.splice(index, 1)[0];
+    pinnedClips.push(clip);
+  },
+
+  deleteHistoryClip(id) {
+    historyClips = historyClips.filter(clip => clip.id !== id);
+  },
+
+  deletePinnedClip(id) {
+    pinnedClips = pinnedClips.filter(clip => clip.id !== id);
   },
 
   downloadClip(id) {

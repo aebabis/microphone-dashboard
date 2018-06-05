@@ -15,11 +15,15 @@ ul.history .graph {
   margin: 5%;
 }
 
-ul.history button.download {
+ul.history button.pin svg {
   position: absolute;
   top: 5px;
-  left: 5px;
-  font-size: 13px;
-  color: #79b;
-  cursor: pointer;
+  right: 28px;
+  width: 15px;
+  height: 15px;
+  fill: #bbb;
+}
+
+ul.history button.pin:hover svg {
+  fill: #888;
 }
