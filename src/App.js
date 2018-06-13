@@ -5,6 +5,7 @@ import SoundService from './SoundService';
 import Graph from './Graph/Graph';
 import History from './History/History';
 import PinnedClips from './PinnedClips/PinnedClips';
+import Recorder from './Recorder/Recorder';
 import Slider from './Slider/Slider';
 
 const THRESHOLD_MIN = 0.01;
@@ -38,56 +39,15 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
-    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-      const context = new AudioContext();
-      const source = context.createMediaStreamSource(stream);
-      const processor = context.createScriptProcessor(SoundService.BUFFER_LENGTH, 1, 1);
-
-      source.connect(processor);
-      processor.connect(context.destination);
-
-      let queue = [];
-      let thresholdStartTime = 0;
-      let lastThresholdTime = 0;
-      processor.onaudioprocess = ({ inputBuffer }) => {
-        const data = inputBuffer.getChannelData(0);
-        const now = +new Date();
-        const amplitude = Math.max(...data);
-        const {
-          debounce,
-          lowerThreshold,
-          upperThreshold,
-          volume,
-        } = this.state;
-
-        this.handleSample(amplitude);
-
-        if (amplitude > lowerThreshold) {
-          if (queue.length > 0 || amplitude > upperThreshold) {
-            lastThresholdTime = now;
-            this.setState(state => ({
-              ...state,
-              lastThresholdTime,
-            }));
-          }
-          if (queue.length === 0 && amplitude > upperThreshold) {
-            thresholdStartTime = now;
-          }
-        }
-        if (now - lastThresholdTime < debounce) {
-          queue.push(data.slice());
-        } else if (queue.length > 0) {
-          const samples = queue.map(arr => Math.max(...arr));
-          while (samples[samples.length - 1] < lowerThreshold) {
-            samples.pop();
-          }
-          SoundService.saveClip(queue, thresholdStartTime, now - thresholdStartTime, samples);
-          SoundService.playSound(queue, volume);
-          queue = [];
-        }
-      };
-    });
+  onClipRecorded({
+    clip,
+    startTime,
+    duration,
+    samples,
+  }) {
+    const { volume } = this.state;
+    SoundService.saveClip(clip, startTime, duration, samples);
+    SoundService.playSound(clip, volume);
   }
 
   setDebounce(debounce) {
@@ -147,6 +107,13 @@ class App extends Component {
     } = this.state;
     return (
       <div className="App">
+        <Recorder
+          debounce={debounce}
+          lowerThreshold={lowerThreshold}
+          upperThreshold={upperThreshold}
+          onSampleRecorded={sample => this.handleSample(sample)}
+          onClipRecorded={clipData => this.onClipRecorded(clipData)}
+        />
         <div className="soundboard">
           <div className="left">
             <History />
