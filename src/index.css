@@ -74,6 +74,27 @@ button {
   margin-left: 10px;
 }
 
+.control-panel .pause {
+  width: 10vmin;
+  padding: 1vmin;
+  background-color: #f3f3f3;
+}
+
+.control-panel .pause button {
+  width: 8vmin;
+  height: 8vmin;
+  font-size: 1.6vmin;
+  font-weight: bold;
+  color: #f99;
+  background-color: #c44;
+  border: solid 3px #fbb;
+  border-radius: 100%;  
+}
+
+.control-panel .pause[data-is-recording="true"] button {
+  background-color: transparent;
+}
+
 .attribution {
   padding: 5px;
   font-size: 10px;

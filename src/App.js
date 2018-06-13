@@ -29,6 +29,7 @@ class App extends Component {
     };
 
     this.state = {
+      isRecording: localStorage.isRecording !== 'false',
       amplitude: 0,
       debounce: loadNumber('debounce', 500),
       lastThresholdTime: 0,
@@ -82,6 +83,15 @@ class App extends Component {
     }));
   }
 
+  toggleRecording() {
+    const isRecording = !this.state.isRecording;
+    localStorage.isRecording = isRecording;
+    this.setState(state => ({
+      ...state,
+      isRecording,
+    }));
+  }
+
   handleSample(amplitude) {
     const samples = this.state.samples.slice();
     samples.push(amplitude);
@@ -97,6 +107,7 @@ class App extends Component {
 
   render() {
     const {
+      isRecording,
       amplitude,
       debounce,
       lastThresholdTime,
@@ -108,6 +119,7 @@ class App extends Component {
     return (
       <div className="App">
         <Recorder
+          enabled={isRecording}
           debounce={debounce}
           lowerThreshold={lowerThreshold}
           upperThreshold={upperThreshold}
@@ -146,6 +158,12 @@ class App extends Component {
                 backgroundWidth={amplitude}
                 backgroundColor="green"
               />
+              <div className="pause" data-is-recording={isRecording}>
+                <button
+                  onClick={() => this.toggleRecording()}
+                  title={isRecording ? 'Pause' : 'Resume'}
+                />
+              </div>
               <Slider
                 label="Delay"
                 min={DEBOUNCE_MIN}

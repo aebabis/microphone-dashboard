@@ -6,9 +6,7 @@ import SoundService from '../SoundService';
 class Recorder extends Component {
   constructor(props) {
     super(props);
-    this.queue = [];
-    this.thresholdStartTime = 0;
-    this.lastThresholdTime = 0;
+    this.reset();
   }
 
   componentDidMount() {
@@ -21,7 +19,13 @@ class Recorder extends Component {
       processor.connect(context.destination);
 
       processor.onaudioprocess = ({ inputBuffer }) => {
-        this.handleBuffer(inputBuffer);
+        if (!this.props.enabled) {
+          if (this.queue.length > 0) {
+            this.reset();
+          }
+        } else {
+          this.handleBuffer(inputBuffer);
+        }
       };
     });
   }
@@ -71,12 +75,23 @@ class Recorder extends Component {
     }
   }
 
+  reset() {
+    this.queue = [];
+    this.thresholdStartTime = 0;
+    this.lastThresholdTime = 0;
+  }
+
   render() {
     return null;
   }
 }
 
+Recorder.defaultProps = {
+  enabled: true,
+};
+
 Recorder.propTypes = {
+  enabled: PropTypes.bool,
   debounce: PropTypes.number.isRequired,
   lowerThreshold: PropTypes.number.isRequired,
   upperThreshold: PropTypes.number.isRequired,
