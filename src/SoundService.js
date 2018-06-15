@@ -88,7 +88,7 @@ const SoundService = {
             output[i] = buffer[i] * volume;
           }
         } else {
-          sound.disconnect();
+          context.close();
         }
       };
 

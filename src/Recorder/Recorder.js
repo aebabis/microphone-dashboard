@@ -10,24 +10,52 @@ class Recorder extends Component {
   }
 
   componentDidMount() {
-    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-      const context = new AudioContext();
-      const source = context.createMediaStreamSource(stream);
-      const processor = context.createScriptProcessor(SoundService.BUFFER_LENGTH, 1, 1);
+    if (this.props.enabled) {
+      this.start();
+    }
+  }
 
-      source.connect(processor);
-      processor.connect(context.destination);
+  componentDidUpdate({ enabled: wasEnabled }) {
+    const { enabled } = this.props;
+    if (wasEnabled !== enabled) {
+      if (enabled) {
+        this.start();
+      } else {
+        this.stop();
+      }
+    }
+  }
 
-      processor.onaudioprocess = ({ inputBuffer }) => {
-        if (!this.props.enabled) {
-          if (this.queue.length > 0) {
-            this.reset();
+  start() {
+    this.setState(state => ({
+      ...state,
+      context: navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+        const context = new AudioContext();
+        const source = context.createMediaStreamSource(stream);
+        const processor = context.createScriptProcessor(SoundService.BUFFER_LENGTH, 1, 1);
+
+        source.connect(processor);
+        processor.connect(context.destination);
+
+        processor.onaudioprocess = ({ inputBuffer }) => {
+          if (!this.props.enabled) {
+            if (this.queue.length > 0) {
+              this.reset();
+            }
+          } else {
+            this.handleBuffer(inputBuffer);
           }
-        } else {
-          this.handleBuffer(inputBuffer);
-        }
-      };
-    });
+        };
+        return context;
+      }),
+    }));
+  }
+
+  stop() {
+    const { context } = this.state;
+    if (context) {
+      context.then(c => c.close());
+    }
   }
 
   handleBuffer(inputBuffer) {
