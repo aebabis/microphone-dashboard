@@ -1,7 +1,7 @@
 const localStorageMock = {
-  getItem: jest.fn(),
-  setItem: jest.fn(),
-  clear: jest.fn(),
+  getItem: jest.fn(), // eslint-disable-line no-undef
+  setItem: jest.fn(), // eslint-disable-line no-undef
+  clear: jest.fn(), // eslint-disable-line no-undef
 };
 global.localStorage = localStorageMock;
 
