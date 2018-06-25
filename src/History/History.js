@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+/* eslint-disable jsx-a11y/href-no-hash */
 import React from 'react';
 
 import './History.css';
