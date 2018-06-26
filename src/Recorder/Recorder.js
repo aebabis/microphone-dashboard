@@ -55,6 +55,7 @@ class Recorder extends Component {
     const { context } = this.state;
     if (context) {
       context.then(c => c.close());
+      this.reset();
     }
   }
 
