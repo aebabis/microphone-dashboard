@@ -48,8 +48,8 @@ class App extends Component {
     samples,
   }) {
     const { volume } = this.state;
-    SoundService.saveClip(clip, startTime, duration, samples);
-    SoundService.playSound(clip, volume);
+    const id = SoundService.saveClip(clip, startTime, duration, samples);
+    SoundService.playSound(id, volume);
   }
 
   setDebounce(debounce) {

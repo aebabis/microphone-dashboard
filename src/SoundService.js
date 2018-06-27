@@ -22,8 +22,9 @@ const SoundService = {
   },
 
   saveClip(data, timestamp, duration, samples) {
+    const id = Math.floor(Math.random() * 1000000);
     historyClips.push({
-      id: Math.floor(Math.random() * 1000000),
+      id,
       data,
       timestamp,
       duration,
@@ -32,6 +33,7 @@ const SoundService = {
     if (historyClips.length > 10) {
       historyClips.shift();
     }
+    return id;
   },
 
   pinClip(id) {
@@ -69,7 +71,8 @@ const SoundService = {
     worker.postMessage({ command: 'exportWAV', type: 'audio/wav' });
   },
 
-  playSound(data, volume = 1) {
+  playSound(id, volume = 1) {
+    const { data } = SoundService.getClip(id);
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       const context = new AudioContext();
       const source = context.createMediaStreamSource(stream);

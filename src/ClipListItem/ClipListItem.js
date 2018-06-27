@@ -9,6 +9,7 @@ import SoundService from '../SoundService';
 import Graph from '../Graph/Graph';
 
 const ClipListItem = ({
+  id,
   clip,
   onDelete,
   children,
@@ -22,7 +23,7 @@ const ClipListItem = ({
       <div className="duration">{clip.duration}ms</div>
     </div>
     <div className="buttons">
-      <button className="play" title="Play" onClick={() => SoundService.playSound(clip.data)} />
+      <button className="play" title="Play" onClick={() => SoundService.playSound(id)} />
     </div>
     <button
       className="download"
@@ -41,6 +42,7 @@ const ClipListItem = ({
   </li>);
 
 ClipListItem.propTypes = {
+  id: PropTypes.string.isRequired,
   clip: PropTypes.shape({
     id: PropTypes.number,
     data: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
