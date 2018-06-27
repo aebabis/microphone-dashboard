@@ -23,7 +23,7 @@ const Slider = (props) => {
   const id = Object.values(props).join('-');
 
   return (
-    <div className="slider">
+    <div className="slider dashboard-box">
       <label htmlFor={id}>
         <span>{label}</span>
         <div className="control">

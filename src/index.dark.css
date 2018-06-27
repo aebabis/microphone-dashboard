@@ -2,17 +2,8 @@
   background-color: #080808;
 }
 
-[data-is-dark="true"] .soundboard > .left,
-[data-is-dark="true"] .soundboard > .right {
-  background-color: #0c0c0c;
-}
-
 [data-is-dark="true"] .soundboard button.theme {
   color: #666;
-}
-
-[data-is-dark="true"] .control-panel .pause {
-  background-color: #0c0c0c;
 }
 
 [data-is-dark="true"] .control-panel .pause button {
@@ -21,7 +12,7 @@
   border: solid 3px #fbb;
 }
 
-.control-panel .pause[data-is-recording="true"] button {
+[data-is-dark="true"] .control-panel .pause[data-is-recording="true"] button {
   background-color: transparent;
 }
 

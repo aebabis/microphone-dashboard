@@ -8,6 +8,9 @@ import PinnedClips from './PinnedClips/PinnedClips';
 import Recorder from './Recorder/Recorder';
 import Slider from './Slider/Slider';
 
+import './Dashboard.css';
+import './Dashboard.dark.css';
+
 const THRESHOLD_MIN = 0.01;
 const THRESHOLD_MAX = 1;
 
@@ -138,7 +141,7 @@ class App extends Component {
           onClipRecorded={clipData => this.onClipRecorded(clipData)}
         />
         <div className="soundboard">
-          <div className="left">
+          <div className="left dashboard-box">
             <History />
           </div>
           <div className="middle">
@@ -177,7 +180,7 @@ class App extends Component {
                 backgroundWidth={amplitude}
                 backgroundColor="green"
               />
-              <div className="pause" data-is-recording={isRecording}>
+              <div className="pause dashboard-box" data-is-recording={isRecording}>
                 <button
                   onClick={() => this.toggleRecording()}
                   title={isRecording ? 'Pause' : 'Resume'}
@@ -205,7 +208,7 @@ class App extends Component {
               />
             </div>
           </div>
-          <div className="right">
+          <div className="right dashboard-box">
             <PinnedClips />
             <div className="attribution">Icon made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC 3.0 BY</a></div>
           </div>

@@ -32,7 +32,6 @@ button {
 .soundboard > .left,
 .soundboard > .right {
   width: 10%;
-  background-color: #f3f3f3;
 }
 
 .soundboard > .middle {
@@ -83,7 +82,6 @@ button {
 .control-panel .pause {
   width: 10vmin;
   padding: 1vmin;
-  background-color: #f3f3f3;
 }
 
 .control-panel .pause button {
