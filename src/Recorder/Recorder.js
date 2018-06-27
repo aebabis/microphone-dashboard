@@ -94,12 +94,14 @@ class Recorder extends Component {
       while (samples[samples.length - 1] < lowerThreshold) {
         samples.pop();
       }
-      onClipRecorded({
-        clip: queue,
-        startTime: thresholdStartTime,
-        duration: now - thresholdStartTime,
-        samples,
-      });
+      if (samples.length > 3) { // Ignore blips
+        onClipRecorded({
+          clip: queue,
+          startTime: thresholdStartTime,
+          duration: now - thresholdStartTime,
+          samples,
+        });
+      }
       this.queue = [];
     }
   }
