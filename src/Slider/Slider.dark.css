@@ -1,0 +1,11 @@
+[data-is-dark="true"] .slider {
+  background-color: #0c0c0c;
+}
+
+[data-is-dark="true"] .slider label > span {
+  color: #666;
+}
+
+[data-is-dark="true"] .slider .value {
+  color: #999;
+}

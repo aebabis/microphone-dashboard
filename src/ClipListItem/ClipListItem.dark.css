@@ -1,0 +1,48 @@
+[data-is-dark="true"] .clip-list-item {
+  background-color: #1d1b1b;
+}
+
+[data-is-dark="true"] .clip-list-item .graph .sample {
+  background-color: #333;
+}
+
+[data-is-dark="true"] .clip-list-item .timestamp {
+  color: #986;
+}
+
+[data-is-dark="true"] .clip-list-item .duration {
+  color: #888;
+}
+
+[data-is-dark="true"] .clip-list-item button.play {
+  border: solid 1px #666;
+}
+
+[data-is-dark="true"] .clip-list-item button.play::after {
+	border-left: 4vmin solid #666;
+}
+
+[data-is-dark="true"] .clip-list-item button.play:hover {
+  border-color: green;
+}
+
+[data-is-dark="true"] .clip-list-item button.play:hover::after {
+  border-left-color: green;
+}
+
+[data-is-dark="true"] .clip-list-item button.download {
+  color: #864;
+}
+
+[data-is-dark="true"] .clip-list-item button.delete {
+  background-color: #444;
+}
+
+[data-is-dark="true"] .clip-list-item button.delete:hover {
+  background-color: #777;
+}
+
+[data-is-dark="true"] .clip-list-item button.delete .top    { border-top-color: #1d1b1b; top: 0; left: 1px; }
+[data-is-dark="true"] .clip-list-item button.delete .right  { border-right-color: #1d1b1b; right: 0; top: 1px; }
+[data-is-dark="true"] .clip-list-item button.delete .bottom { border-bottom-color: #1d1b1b; bottom: 0; left: 1px; }
+[data-is-dark="true"] .clip-list-item button.delete .left   { border-left-color: #1d1b1b; left: 0; top: 1px; }

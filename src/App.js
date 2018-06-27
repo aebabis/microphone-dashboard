@@ -29,6 +29,7 @@ class App extends Component {
     };
 
     this.state = {
+      isDarkTheme: localStorage.isDarkTheme === 'true',
       isRecording: localStorage.isRecording !== 'false',
       amplitude: 0,
       debounce: loadNumber('debounce', 500),
@@ -83,6 +84,15 @@ class App extends Component {
     }));
   }
 
+  toggleDarkTheme() {
+    const isDarkTheme = !this.state.isDarkTheme;
+    localStorage.isDarkTheme = isDarkTheme;
+    this.setState(state => ({
+      ...state,
+      isDarkTheme,
+    }));
+  }
+
   toggleRecording() {
     const isRecording = !this.state.isRecording;
     localStorage.isRecording = isRecording;
@@ -107,6 +117,7 @@ class App extends Component {
 
   render() {
     const {
+      isDarkTheme,
       isRecording,
       amplitude,
       debounce,
@@ -117,7 +128,7 @@ class App extends Component {
       volume,
     } = this.state;
     return (
-      <div className="App">
+      <div className="App" data-is-dark={isDarkTheme}>
         <Recorder
           enabled={isRecording}
           debounce={debounce}
@@ -131,6 +142,14 @@ class App extends Component {
             <History />
           </div>
           <div className="middle">
+            <div className="top-bar">
+              <button
+                className="theme"
+                onClick={() => this.toggleDarkTheme()}
+              >
+                &#9728;
+              </button>
+            </div>
             <div className="graphs">
               <Graph
                 values={samples}

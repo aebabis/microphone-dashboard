@@ -1,7 +1,9 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import PropTypes from 'prop-types';
 
 import './Graph.css';
+import './Graph.dark.css';
 
 const Graph = (props) => {
   const {
@@ -21,8 +23,9 @@ const Graph = (props) => {
 
   return (
     <div className="graph">{
-      valuesList.map(sample => (
+      valuesList.map((sample, index) => (
         <div
+          key={index}
           className="sample"
           style={{ height: `${(Math.floor((sample - minValue) * 100) / maxValue)}%` }}
         />))

@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
-/* eslint-disable jsx-a11y/href-no-hash */
 import React from 'react';
 
 import './History.css';
+import './History.dark.css';
 
 import SoundService from '../SoundService';
 import ClipListItem from '../ClipListItem/ClipListItem';
@@ -30,7 +30,7 @@ export default () => {
               x="0px"
               y="0px"
               viewBox="0 0 193.826 193.826"
-              style={{ 'enable-background': 'new 0 0 193.826 193.826;' }}
+              style={{ enableBackground: 'new 0 0 193.826 193.826' }}
             >
               <path d="M191.495,55.511L137.449,1.465c-1.951-1.953-5.119-1.953-7.07,0l-0.229,0.229c-3.314,3.313-5.14,7.72-5.14,12.406
                 c0,3.019,0.767,5.916,2.192,8.485l-56.55,48.533c-4.328-3.868-9.852-5.985-15.703-5.985c-6.305,0-12.232,2.455-16.689,6.913

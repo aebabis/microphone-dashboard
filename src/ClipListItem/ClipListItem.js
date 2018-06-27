@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import './ClipListItem.css';
+import './ClipListItem.dark.css';
 
 import SoundService from '../SoundService';
 import Graph from '../Graph/Graph';

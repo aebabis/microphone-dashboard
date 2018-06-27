@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './Slider.css';
+import './Slider.dark.css';
 
 const Slider = (props) => {
   const {

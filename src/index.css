@@ -9,10 +9,6 @@ html, body, #root {
   height: 100%;
 }
 
-body {
-  padding: 10px;
-}
-
 button {
   border: 0;
   outline: 0;
@@ -21,6 +17,7 @@ button {
 
 .App {
   height: 100%;
+  padding: 10px;
 }
 
 .soundboard {
@@ -42,6 +39,15 @@ button {
   display: flex;
   flex-direction: column;
   flex: 1;
+}
+
+.soundboard > .middle .top-bar {
+  text-align: right;
+}
+
+.soundboard button.theme {
+  font-size: 2em;
+  color: #ccc;
 }
 
 .soundboard > .right {

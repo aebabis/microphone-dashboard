@@ -1,0 +1,7 @@
+[data-is-dark="true"] ul.history button.pin svg {
+  fill: #444;
+}
+
+[data-is-dark="true"] ul.history button.pin:hover svg {
+  fill: #777;
+}
