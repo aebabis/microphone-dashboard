@@ -44,6 +44,10 @@ class App extends Component {
     };
   }
 
+  componentDidMount() {
+    SoundService.addChangeListener(() => this.forceUpdate());
+  }
+
   onClipRecorded({
     clip,
     startTime,

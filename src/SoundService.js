@@ -2,8 +2,11 @@ import moment from 'moment';
 
 import RecorderWorker from './RecorderWorker';
 
+let listeners = [];
 let historyClips = [];
 let pinnedClips = [];
+
+const notifyObservers = () => listeners.forEach(listener => listener());
 
 const SoundService = {
   BUFFER_LENGTH: 1024,
@@ -33,6 +36,7 @@ const SoundService = {
     if (historyClips.length > 10) {
       historyClips.shift();
     }
+    notifyObservers();
     return id;
   },
 
@@ -40,14 +44,17 @@ const SoundService = {
     const index = historyClips.findIndex(clip => clip.id === id);
     const clip = historyClips.splice(index, 1)[0];
     pinnedClips.push(clip);
+    notifyObservers();
   },
 
   deleteHistoryClip(id) {
     historyClips = historyClips.filter(clip => clip.id !== id);
+    notifyObservers();
   },
 
   deletePinnedClip(id) {
     pinnedClips = pinnedClips.filter(clip => clip.id !== id);
+    notifyObservers();
   },
 
   downloadClip(id) {
@@ -98,6 +105,14 @@ const SoundService = {
       sound.loop = false;
       sound.connect(context.destination);
     });
+  },
+
+  addChangeListener(listener) {
+    listeners.push(listener);
+  },
+
+  removeChangeListener(listener) {
+    listeners = listeners.filter(other => other !== listener);
   },
 };
 
