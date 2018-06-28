@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 
 import SoundService from '../SoundService';
 
+const ONSET_BUFFER_COUNT = 3;
+const BUFFER_SIZE_THRESHOLD = 3;
+
 class Recorder extends Component {
   constructor(props) {
     super(props);
@@ -74,27 +77,38 @@ class Recorder extends Component {
 
     onSampleRecorded(amplitude);
 
+    const isWindowOpen = now - lastThresholdTime < debounce;
+
+    // Keep a leading buffer to prevent onset artifacts
+    queue.push(data.slice());
+    if (!isWindowOpen && queue.length > ONSET_BUFFER_COUNT) {
+      queue.shift();
+    }
+
+    const isRecording = queue.length > ONSET_BUFFER_COUNT;
+
+    // Start recording if lower threshold is cleared
+    if (!isRecording && amplitude > upperThreshold) {
+      this.thresholdStartTime = now;
+    }
+
     if (amplitude > lowerThreshold) {
-      if (queue.length > 0 || amplitude > upperThreshold) {
+      if (isRecording || amplitude > upperThreshold) {
         this.lastThresholdTime = now;
         this.setState(state => ({
           ...state,
           lastThresholdTime,
         }));
       }
-      if (queue.length === 0 && amplitude > upperThreshold) {
-        this.thresholdStartTime = now;
-      }
     }
-    if (now - lastThresholdTime < debounce) {
-      queue.push(data.slice());
-    } else if (queue.length > 0) {
+
+    if (!isWindowOpen && isRecording) {
       const samples = queue.map(arr => Math.max(...arr));
       // Remove trailing silence
       while (samples[samples.length - 1] < lowerThreshold) {
         samples.pop();
       }
-      if (samples.length > 3) { // Ignore blips
+      if (samples.length > ONSET_BUFFER_COUNT + BUFFER_SIZE_THRESHOLD) { // Ignore blips
         onClipRecorded({
           clip: queue,
           startTime: thresholdStartTime,
