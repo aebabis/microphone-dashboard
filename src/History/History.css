@@ -25,6 +25,6 @@ ul.history button.pin svg {
 }
 
 ul.history button.pin:hover svg,
-ul.history button.pin:focus svg {
+[data-is-using-keyboard="true"] ul.history button.pin:focus svg {
   fill: #888;
 }

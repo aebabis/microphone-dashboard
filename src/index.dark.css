@@ -7,7 +7,7 @@
 }
 
 [data-is-dark="true"] .soundboard button.theme:hover,
-[data-is-dark="true"] .soundboard button.theme:focus {
+[data-is-using-keyboard="true"][data-is-dark="true"] .soundboard button.theme:focus {
   color: #777;
 }
 
@@ -18,7 +18,7 @@
 }
 
 [data-is-dark="true"] .control-panel .pause button:hover,
-[data-is-dark="true"] .control-panel .pause button:focus {
+[data-is-using-keyboard="true"][data-is-dark="true"] .control-panel .pause button:focus {
   border-color: #c44;
 }
 

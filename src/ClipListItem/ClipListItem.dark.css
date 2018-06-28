@@ -23,12 +23,12 @@
 }
 
 [data-is-dark="true"] .clip-list-item button.play:hover,
-[data-is-dark="true"] .clip-list-item button.play:focus {
+[data-is-using-keyboard="true"][data-is-dark="true"] .clip-list-item button.play:focus {
   border-color: green;
 }
 
 [data-is-dark="true"] .clip-list-item button.play:hover::after,
-[data-is-dark="true"] .clip-list-item button.play:focus::after {
+[data-is-using-keyboard="true"][data-is-dark="true"] .clip-list-item button.play:focus::after {
   border-left-color: green;
 }
 
@@ -37,7 +37,7 @@
 }
 
 [data-is-dark="true"] .clip-list-item button.download:hover,
-[data-is-dark="true"] .clip-list-item button.download:focus {
+[data-is-using-keyboard="true"][data-is-dark="true"] .clip-list-item button.download:focus {
   color: #a86;
 }
 
@@ -46,7 +46,7 @@
 }
 
 [data-is-dark="true"] .clip-list-item button.delete:hover,
-[data-is-dark="true"] .clip-list-item button.delete:focus {
+[data-is-using-keyboard="true"][data-is-dark="true"] .clip-list-item button.delete:focus {
   background-color: #777;
 }
 

@@ -34,6 +34,7 @@ class App extends Component {
     this.state = {
       isDarkTheme: localStorage.isDarkTheme === 'true',
       isRecording: localStorage.isRecording !== 'false',
+      isUsingKeyboard: false,
       amplitude: 0,
       debounce: loadNumber('debounce', 500),
       lastThresholdTime: 0,
@@ -46,6 +47,14 @@ class App extends Component {
 
   componentDidMount() {
     SoundService.addChangeListener(() => this.forceUpdate());
+    document.addEventListener('keydown', () => this.setState(state => ({
+      ...state,
+      isUsingKeyboard: true,
+    })));
+    document.addEventListener('mousedown', () => this.setState(state => ({
+      ...state,
+      isUsingKeyboard: false,
+    })));
   }
 
   onClipRecorded({
@@ -126,6 +135,7 @@ class App extends Component {
     const {
       isDarkTheme,
       isRecording,
+      isUsingKeyboard,
       amplitude,
       debounce,
       lastThresholdTime,
@@ -135,7 +145,11 @@ class App extends Component {
       volume,
     } = this.state;
     return (
-      <div className="App" data-is-dark={isDarkTheme}>
+      <div
+        className="App"
+        data-is-dark={isDarkTheme}
+        data-is-using-keyboard={isUsingKeyboard}
+      >
         <Recorder
           enabled={isRecording}
           debounce={debounce}

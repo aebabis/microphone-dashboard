@@ -64,12 +64,12 @@
 }
 
 .clip-list-item button.play:hover,
-.clip-list-item button.play:focus {
+[data-is-using-keyboard="true"] .clip-list-item button.play:focus {
   border-color: green;
 }
 
 .clip-list-item button.play:hover::after,
-.clip-list-item button.play:focus::after {
+[data-is-using-keyboard="true"] .clip-list-item button.play:focus::after {
   border-left-color: green;
 }
 
@@ -84,7 +84,7 @@
 }
 
 .clip-list-item button.download:hover,
-.clip-list-item button.download:focus {
+[data-is-using-keyboard="true"] .clip-list-item button.download:focus {
   color: #579;
 }
 
@@ -98,7 +98,7 @@
 }
 
 .clip-list-item button.delete:hover,
-.clip-list-item button.delete:focus {
+[data-is-using-keyboard="true"] .clip-list-item button.delete:focus {
   background-color: #888;
 }
 

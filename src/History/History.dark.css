@@ -3,6 +3,6 @@
 }
 
 [data-is-dark="true"] ul.history button.pin:hover svg,
-[data-is-dark="true"] ul.history button.pin:focus svg {
+[data-is-using-keyboard="true"][data-is-dark="true"] ul.history button.pin:focus svg {
   fill: #777;
 }

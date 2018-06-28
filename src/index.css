@@ -50,7 +50,7 @@ button {
 }
 
 .soundboard button.theme:hover,
-.soundboard button.theme:focus {
+[data-is-using-keyboard="true"] .soundboard button.theme:focus {
   color: #888;
 }
 
@@ -101,7 +101,7 @@ button {
 }
 
 .control-panel .pause button:hover,
-.control-panel .pause button:focus {
+[data-is-using-keyboard="true"] .control-panel .pause button:focus {
   border-color: #c44;
 }
 
