@@ -14,7 +14,7 @@ export default () => {
     <ul className="history">{
       clips.map(clip => (
         <ClipListItem
-          key={clip.timestamp}
+          key={clip.id}
           clip={clip}
           onDelete={id => SoundService.deleteHistoryClip(id)}
         >
