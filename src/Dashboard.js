@@ -22,7 +22,7 @@ const VOLUME_MAX = 3;
 
 const SAMPLE_BUFFER_LENGTH = 200;
 
-class App extends Component {
+class Dashboard extends Component {
   constructor(props) {
     super(props);
 
@@ -146,7 +146,7 @@ class App extends Component {
     } = this.state;
     return (
       <div
-        className="App"
+        className="Dashboard"
         data-is-dark={isDarkTheme}
         data-is-using-keyboard={isUsingKeyboard}
       >
@@ -236,4 +236,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Dashboard;
