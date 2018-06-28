@@ -46,7 +46,12 @@ button {
 
 .soundboard button.theme {
   font-size: 2em;
-  color: #ccc;
+  color: #bbb;
+}
+
+.soundboard button.theme:hover,
+.soundboard button.theme:focus {
+  color: #888;
 }
 
 .soundboard > .right {
@@ -93,6 +98,11 @@ button {
   background-color: #c44;
   border: solid 3px #fbb;
   border-radius: 100%;  
+}
+
+.control-panel .pause button:hover,
+.control-panel .pause button:focus {
+  border-color: #c44;
 }
 
 .control-panel .pause[data-is-recording="true"] button {

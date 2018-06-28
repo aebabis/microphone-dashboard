@@ -63,11 +63,13 @@
   margin-left: 1.4vmin;
 }
 
-.clip-list-item button.play:hover {
+.clip-list-item button.play:hover,
+.clip-list-item button.play:focus {
   border-color: green;
 }
 
-.clip-list-item button.play:hover::after {
+.clip-list-item button.play:hover::after,
+.clip-list-item button.play:focus::after {
   border-left-color: green;
 }
 
@@ -78,6 +80,12 @@
   font-size: 13px;
   color: #79b;
   cursor: pointer;
+  z-index: 1;
+}
+
+.clip-list-item button.download:hover,
+.clip-list-item button.download:focus {
+  color: #579;
 }
 
 .clip-list-item button.delete {
@@ -89,7 +97,8 @@
   background-color: #bbb;
 }
 
-.clip-list-item button.delete:hover {
+.clip-list-item button.delete:hover,
+.clip-list-item button.delete:focus {
   background-color: #888;
 }
 

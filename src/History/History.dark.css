@@ -2,6 +2,7 @@
   fill: #444;
 }
 
-[data-is-dark="true"] ul.history button.pin:hover svg {
+[data-is-dark="true"] ul.history button.pin:hover svg,
+[data-is-dark="true"] ul.history button.pin:focus svg {
   fill: #777;
 }

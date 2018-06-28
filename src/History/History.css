@@ -24,6 +24,7 @@ ul.history button.pin svg {
   fill: #bbb;
 }
 
-ul.history button.pin:hover svg {
+ul.history button.pin:hover svg,
+ul.history button.pin:focus svg {
   fill: #888;
 }

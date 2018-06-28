@@ -22,11 +22,13 @@
 	border-left: 4vmin solid #666;
 }
 
-[data-is-dark="true"] .clip-list-item button.play:hover {
+[data-is-dark="true"] .clip-list-item button.play:hover,
+[data-is-dark="true"] .clip-list-item button.play:focus {
   border-color: green;
 }
 
-[data-is-dark="true"] .clip-list-item button.play:hover::after {
+[data-is-dark="true"] .clip-list-item button.play:hover::after,
+[data-is-dark="true"] .clip-list-item button.play:focus::after {
   border-left-color: green;
 }
 
@@ -34,11 +36,17 @@
   color: #864;
 }
 
+[data-is-dark="true"] .clip-list-item button.download:hover,
+[data-is-dark="true"] .clip-list-item button.download:focus {
+  color: #a86;
+}
+
 [data-is-dark="true"] .clip-list-item button.delete {
   background-color: #444;
 }
 
-[data-is-dark="true"] .clip-list-item button.delete:hover {
+[data-is-dark="true"] .clip-list-item button.delete:hover,
+[data-is-dark="true"] .clip-list-item button.delete:focus {
   background-color: #777;
 }
 

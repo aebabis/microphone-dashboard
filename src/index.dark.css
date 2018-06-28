@@ -3,13 +3,23 @@
 }
 
 [data-is-dark="true"] .soundboard button.theme {
-  color: #666;
+  color: #444;
+}
+
+[data-is-dark="true"] .soundboard button.theme:hover,
+[data-is-dark="true"] .soundboard button.theme:focus {
+  color: #777;
 }
 
 [data-is-dark="true"] .control-panel .pause button {
   color: #f99;
   background-color: #c44;
   border: solid 3px #fbb;
+}
+
+[data-is-dark="true"] .control-panel .pause button:hover,
+[data-is-dark="true"] .control-panel .pause button:focus {
+  border-color: #c44;
 }
 
 [data-is-dark="true"] .control-panel .pause[data-is-recording="true"] button {

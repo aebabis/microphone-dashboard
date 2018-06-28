@@ -21,9 +21,6 @@ const ClipListItem = ({
       <div className="timestamp">{moment(clip.timestamp).format('YYYY-MM-DD HH:mm:ss')}</div>
       <div className="duration">{clip.duration}ms</div>
     </div>
-    <div className="buttons">
-      <button className="play" title="Play" onClick={() => SoundService.playSound(clip.id)} />
-    </div>
     <button
       className="download"
       title="Download"
@@ -31,13 +28,16 @@ const ClipListItem = ({
     >
       Download
     </button>
+    <div className="buttons">
+      <button className="play" title="Play" onClick={() => SoundService.playSound(clip.id)} />
+    </div>
+    {children}
     <button className="delete" title="Delete" onClick={() => onDelete(clip.id)}>
       <div className="top" />
       <div className="right" />
       <div className="bottom" />
       <div className="left" />
     </button>
-    {children}
   </li>);
 
 ClipListItem.propTypes = {
