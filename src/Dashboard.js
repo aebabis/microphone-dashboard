@@ -118,15 +118,15 @@ class Dashboard extends Component {
     }));
   }
 
-  handleSample(amplitude) {
+  handleSample(sample) {
     const samples = this.state.samples.slice();
-    samples.push(amplitude);
+    samples.push(sample);
     if (samples.length > SAMPLE_BUFFER_LENGTH) {
       samples.shift();
     }
     this.setState(state => ({
       ...state,
-      amplitude,
+      amplitude: sample.amplitude,
       samples,
     }));
   }
@@ -173,7 +173,7 @@ class Dashboard extends Component {
             </div>
             <div className="graphs">
               <Graph
-                values={samples}
+                values={samples.map(sample => sample.amplitude)}
                 maxSize={SAMPLE_BUFFER_LENGTH}
               />
             </div>

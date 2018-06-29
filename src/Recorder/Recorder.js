@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import Pitchfinder from 'pitchfinder';
+
 import SoundService from '../SoundService';
 
 const ONSET_BUFFER_COUNT = 3;
@@ -67,6 +69,8 @@ class Recorder extends Component {
     const data = inputBuffer.getChannelData(0);
     const now = +new Date();
     const amplitude = Math.max(...data);
+    const pitch = Pitchfinder.AMDF()(data);
+
     const {
       debounce,
       lowerThreshold,
@@ -75,7 +79,10 @@ class Recorder extends Component {
       onClipRecorded,
     } = this.props;
 
-    onSampleRecorded(amplitude);
+    onSampleRecorded({
+      amplitude,
+      pitch,
+    });
 
     const isWindowOpen = now - lastThresholdTime < debounce;
 

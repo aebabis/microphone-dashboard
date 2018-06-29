@@ -2362,7 +2362,7 @@ eslint-plugin-import@^2.12.0:
     read-pkg-up "^2.0.0"
     resolve "^1.6.0"
 
-eslint-plugin-jsx-a11y@5, eslint-plugin-jsx-a11y@5.1.1:
+eslint-plugin-jsx-a11y@5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-jsx-a11y/-/eslint-plugin-jsx-a11y-5.1.1.tgz#5c96bb5186ca14e94db1095ff59b3e2bd94069b1"
   dependencies:
@@ -5069,6 +5069,10 @@ pinkie-promise@^2.0.0:
 pinkie@^2.0.0:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
+
+pitchfinder@^2.0.9:
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/pitchfinder/-/pitchfinder-2.0.9.tgz#206f8411388f79caf9db3db79f1d3580f8551d3d"
 
 pkg-dir@^1.0.0:
   version "1.0.0"
