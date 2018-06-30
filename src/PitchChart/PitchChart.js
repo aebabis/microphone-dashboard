@@ -9,7 +9,6 @@ import './PitchChart.dark.css';
 const C_0_FREQ = 16.351;
 const OCTAVE_OFFSET = Math.log2(C_0_FREQ);
 const BAR_RES = 10;
-const HEIGHT = 500;
 
 const NOTES = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b', 'b#'];
 const MAX_OCTAVE = 6;
@@ -65,8 +64,9 @@ class PitchChart extends Component {
 
     const { values, maxSize } = this.props;
     const width = (maxSize + 1) * BAR_RES;
+    const height = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
     canvas.width = width;
-    canvas.height = HEIGHT;
+    canvas.height = height;
 
     ALL_NOTES.forEach(({
       pc,
@@ -75,7 +75,7 @@ class PitchChart extends Component {
       freq,
     }) => {
       const octave = Math.log2(freq) - OCTAVE_OFFSET;
-      const offset = HEIGHT - ((octave * HEIGHT) / 6);
+      const offset = height - ((octave * height) / 6);
       context.beginPath();
       context.moveTo(20, offset);
       context.lineTo(width, offset);
@@ -83,6 +83,7 @@ class PitchChart extends Component {
       context.stroke();
 
       if (acc === '') {
+        // context.font = '10px sans-serif';
         context.fillStyle = 'rgb(50, 50, 50)';
         context.fillText(`${pc}${oct}`, 2, offset + 3);
       }
@@ -90,7 +91,7 @@ class PitchChart extends Component {
 
     values.slice().reverse().forEach((value, index) => {
       const octave = getOctave(value);
-      const offset = HEIGHT - ((octave * HEIGHT) / 6);
+      const offset = height - ((octave * height) / 6);
       context.beginPath();
       context.moveTo((maxSize - index) * BAR_RES, offset);
       context.lineTo(((maxSize - index) + 1) * BAR_RES, offset);
