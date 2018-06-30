@@ -79,7 +79,13 @@ class PitchChart extends Component {
       context.beginPath();
       context.moveTo(20, offset);
       context.lineTo(width, offset);
-      context.strokeStyle = pc === 'C' ? 'rgb(70, 70, 70)' : 'rgb(20, 20, 20)';
+      if (pc === 'C') {
+        context.strokeStyle = 'rgb(70, 70, 70)';
+      } else if (acc === '') {
+        context.strokeStyle = 'rgb(35, 35, 35)';
+      } else {
+        context.strokeStyle = 'rgb(20, 20, 20)';
+      }
       context.stroke();
 
       if (acc === '') {
