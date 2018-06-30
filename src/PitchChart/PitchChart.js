@@ -33,12 +33,34 @@ class PitchChart extends Component {
     handle();
   }
 
+  scroll() {
+    const canvas = this.canvas.current;
+    const scrollPane = canvas.parentElement;
+    const { values } = this.props;
+    const pitch = values[values.length - 1];
+    if (!pitch) {
+      return;
+    }
+
+    const canvasHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
+    const scrollPaneHeight = parseFloat(getComputedStyle(scrollPane).getPropertyValue('height'));
+    const octave = getOctave(pitch);
+    const proportion = 1 - (octave / (MAX_OCTAVE));
+    const canvasY = proportion * canvasHeight;
+    if (canvasY < scrollPane.scrollTop) {
+      scrollPane.scrollTop = canvasY - (scrollPaneHeight / 4);
+    } else if (canvasY > scrollPane.scrollTop + scrollPaneHeight) {
+      scrollPane.scrollTop = (canvasY - scrollPaneHeight) + (scrollPaneHeight / 4);
+    }
+  }
+
   redraw() {
     const canvas = this.canvas.current;
     const context = canvas.getContext('2d');
     if (!context) {
       return;
     }
+    this.scroll();
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     const { values, maxSize } = this.props;
@@ -80,7 +102,9 @@ class PitchChart extends Component {
   render() {
     return (
       <div className="pitch-chart">
-        <canvas ref={this.canvas} />
+        <div className="scroll-pane">
+          <canvas ref={this.canvas} />
+        </div>
       </div>
     );
   }
