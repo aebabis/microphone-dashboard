@@ -176,6 +176,7 @@ class Dashboard extends Component {
               <PitchChart
                 values={samples.map(sample => sample.pitch)}
                 maxSize={SAMPLE_BUFFER_LENGTH}
+                isDark={isDarkTheme}
               />
               <Graph
                 values={samples.map(sample => sample.amplitude)}

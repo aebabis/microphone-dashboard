@@ -16,6 +16,23 @@ const OCTAVES = new Array(MAX_OCTAVE + 1).fill(null).map((_, i) => i);
 const ALL_NOTES = [].concat(...OCTAVES
   .map(octave => NOTES.map(note => parse(`${note}${octave}`))));
 
+const COLORS = {
+  LIGHT: {
+    LINE_OCTAVE: 'rgb(180, 180, 180)',
+    LINE_NATURAL: 'rgb(210, 210, 210)',
+    LINE_SHARP: 'rgb(230, 230, 230)',
+    TEXT: 'rgb(180, 180, 180)',
+    PITCH: 'rgb(120, 180, 120)',
+  },
+  DARK: {
+    LINE_OCTAVE: 'rgb(70, 70, 70)',
+    LINE_NATURAL: 'rgb(35, 35, 35)',
+    LINE_SHARP: 'rgb(20, 20, 20)',
+    TEXT: 'rgb(50, 50, 50)',
+    PITCH: 'rgb(100, 50, 0)',
+  },
+};
+
 const getOctave = freq => Math.log2(freq) - OCTAVE_OFFSET;
 
 class PitchChart extends Component {
@@ -54,12 +71,14 @@ class PitchChart extends Component {
   }
 
   redraw() {
+    const { isDark } = this.props;
     const canvas = this.canvas.current;
     const context = canvas.getContext('2d');
     if (!context) {
       return;
     }
     this.scroll();
+    const theme = COLORS[isDark ? 'DARK' : 'LIGHT'];
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     const { values, maxSize } = this.props;
@@ -80,17 +99,16 @@ class PitchChart extends Component {
       context.moveTo(20, offset);
       context.lineTo(width, offset);
       if (pc === 'C') {
-        context.strokeStyle = 'rgb(70, 70, 70)';
+        context.strokeStyle = theme.LINE_OCTAVE;
       } else if (acc === '') {
-        context.strokeStyle = 'rgb(35, 35, 35)';
+        context.strokeStyle = theme.LINE_NATURAL;
       } else {
-        context.strokeStyle = 'rgb(20, 20, 20)';
+        context.strokeStyle = theme.LINE_SHARP;
       }
       context.stroke();
 
       if (acc === '') {
-        // context.font = '10px sans-serif';
-        context.fillStyle = 'rgb(50, 50, 50)';
+        context.fillStyle = theme.TEXT;
         context.fillText(`${pc}${oct}`, 2, offset + 3);
       }
     });
@@ -101,7 +119,7 @@ class PitchChart extends Component {
       context.beginPath();
       context.moveTo((maxSize - index) * BAR_RES, offset);
       context.lineTo(((maxSize - index) + 1) * BAR_RES, offset);
-      context.strokeStyle = 'rgb(100, 50, 0)';
+      context.strokeStyle = theme.PITCH;
       context.stroke();
     });
   }
@@ -120,6 +138,11 @@ class PitchChart extends Component {
 PitchChart.propTypes = {
   values: PropTypes.arrayOf(PropTypes.number).isRequired,
   maxSize: PropTypes.number.isRequired,
+  isDark: PropTypes.bool,
+};
+
+PitchChart.defaultProps = {
+  isDark: false,
 };
 
 export default PitchChart;
