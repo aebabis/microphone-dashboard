@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import SoundService from './SoundService';
 
+import PitchChart from './PitchChart/PitchChart';
 import Graph from './Graph/Graph';
 import History from './History/History';
 import PinnedClips from './PinnedClips/PinnedClips';
@@ -172,6 +173,10 @@ class Dashboard extends Component {
               </button>
             </div>
             <div className="graphs">
+              <PitchChart
+                values={samples.map(sample => sample.pitch)}
+                maxSize={SAMPLE_BUFFER_LENGTH}
+              />
               <Graph
                 values={samples.map(sample => sample.amplitude)}
                 maxSize={SAMPLE_BUFFER_LENGTH}
