@@ -34,6 +34,22 @@ button {
   width: 10%;
 }
 
+.soundboard > .left {
+  display: flex;
+  flex-direction: column;
+}
+
+.soundboard > .left .history {
+  flex: 1;
+}
+
+.soundboard > .left .left-footer {
+  padding: 4px;
+  font-size: 8px;
+  text-align: center;
+  color: #bbb;
+}
+
 .soundboard > .middle {
   display: flex;
   flex-direction: column;

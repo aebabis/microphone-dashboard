@@ -2,6 +2,10 @@
   background-color: #080808;
 }
 
+[data-is-dark="true"] .soundboard > .left .left-footer {
+  color: #222
+}
+
 [data-is-dark="true"] .soundboard button.theme {
   color: #444;
 }

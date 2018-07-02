@@ -162,6 +162,9 @@ class Dashboard extends Component {
         <div className="soundboard">
           <div className="left dashboard-box">
             <History />
+            <div className="left-footer">
+              3Mbu1gmsCwVw9eHZnupYkF3MZNYZrpj7gi
+            </div>
           </div>
           <div className="middle">
             <div className="top-bar">

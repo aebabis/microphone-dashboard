@@ -91,7 +91,7 @@ const SoundService = {
       const queue = data.slice();
       const sound = context.createScriptProcessor(SoundService.BUFFER_LENGTH, 1, 1);
       sound.onaudioprocess = ({ outputBuffer }) => {
-        if (queue.length > 0) {
+        if (queue.length > 0 && SoundService.getClip(id) != null) {
           const output = outputBuffer.getChannelData(0);
           const buffer = queue.shift();
           for (let i = 0; i < SoundService.BUFFER_LENGTH; i += 1) {
